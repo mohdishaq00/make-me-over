@@ -58,6 +58,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 170,
         backgroundColor: const Color.fromARGB(160, 228, 198, 188),
         title: Column(
