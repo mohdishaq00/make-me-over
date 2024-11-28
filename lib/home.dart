@@ -24,6 +24,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 170,
         backgroundColor: const Color.fromARGB(160, 228, 198, 188),
         title: Column(
@@ -33,8 +34,7 @@ class HomePage extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => NewTask()));
+                    
                   },
                   icon: const Icon(
                     Icons.menu,
