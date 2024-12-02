@@ -95,8 +95,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 20,
+            divider(
+              boxHeight: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,8 +124,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
+                divider(
+                  boxWidth: 10,
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -156,8 +156,8 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 15,
+              divider(
+                boxHeight: 15,
               ),
               const Text(
                 'Top Services',
@@ -168,8 +168,8 @@ class _HomePageState extends State<HomePage> {
                     fontFamily: 'Aovel',
                     letterSpacing: 2),
               ),
-              const SizedBox(
-                height: 15,
+              divider(
+                boxHeight: 15,
               ),
 
               // ServiceCards
@@ -186,11 +186,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 10,
+              divider(
+                boxWidth: 10,
               ),
-              const SizedBox(
-                height: 15,
+              divider(
+                boxHeight: 15,
               ),
               const Text(
                 'Top Artist',
@@ -203,25 +203,25 @@ class _HomePageState extends State<HomePage> {
               ),
 
               //Artist Card
-              const SingleChildScrollView(
+              SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: IntrinsicWidth(
                   child: Row(
                     children: [
-                      Artistcard(
+                      const Artistcard(
                           img: 'assets/beauty_1.jpg',
                           title: 'Anna Teresa',
                           subtitle: 'Beauty Artist',
                           price: '27\$'),
-                      SizedBox(width: 10),
-                      Artistcard(
+                      divider(boxWidth: 10),
+                      const Artistcard(
                           img: 'assets/beauty_1.jpg',
                           title: 'Stephy',
                           subtitle: 'Beauty Artist',
                           price: '27\$'),
 
-                      SizedBox(width: 10), // Add spacing between cards
-                      Artistcard(
+                      divider(boxWidth: 10), // Add spacing between cards
+                      const Artistcard(
                           img: "assets/beauty 2.jpg",
                           title: "Stella",
                           subtitle: 'Beauty Artist',
@@ -236,4 +236,14 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Widget divider({
+  double? boxHeight,
+  double? boxWidth,
+}) {
+  return SizedBox(
+    height: boxHeight,
+    width: boxWidth,
+  );
 }

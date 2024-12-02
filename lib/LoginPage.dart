@@ -11,23 +11,12 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   final TextEditingController _passwordController = TextEditingController();
   // ignore: non_constant_identifier_names
-  bool bool_obscureText = true;
+  bool _obsecureText = true;
   @override
   Widget build(BuildContext context) {
-    // Size screensize = MediaQuery.of(context).size;
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 247, 214, 198),
       body: Stack(
         children: [
-          // Container(
-          //   height: MediaQuery.of(context).size.height,
-          //   width: MediaQuery.of(context).size.width,
-          //   decoration: BoxDecoration(
-
-          //    const Color.fromARGB(224, 66, 49, 43), // Ends with brownish color
-          //   ),
-          // ),
-
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(children: [
@@ -64,22 +53,6 @@ class _LoginpageState extends State<Loginpage> {
               ),
             ]),
           ),
-          // Positioned(top: 410,
-          //   child: Container(
-          //     height: 100,
-          //     width: MediaQuery.of(context).size.width,
-          //     decoration: const BoxDecoration(
-          //       gradient: LinearGradient(
-          //         colors: [Color.fromARGB(255, 11, 79, 121), Color.fromARGB(26, 90, 12, 142)],
-          //         begin: Alignment.bottomCenter,
-          //         end: Alignment.topCenter,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          // Padding(
-          // padding: const EdgeInsets.only(left: 300),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -96,11 +69,8 @@ class _LoginpageState extends State<Loginpage> {
                   height: 20,
                 ),
                 Container(
-                  height: 500, width: 400,
-                  //  height: MediaQuery.of(context).size.height * 0.7,
-                  //   width: MediaQuery.of(context).size.width * 0.5,
-                  // constraints: BoxConstraints(
-                  //     maxHeight: 600, maxWidth: 500, minHeight: 500, minWidth: 300),
+                  height: 500,
+                  width: 400,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(20),
@@ -143,44 +113,53 @@ class _LoginpageState extends State<Loginpage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: TextField(
-                              controller: _passwordController,
-                              obscureText: true,
-                              cursorColor: Colors.brown,
-                              decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
-                                  labelText: "Password",
-                                  labelStyle: TextStyle(
-                                    color: Colors.brown[800],
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                            Colors.brown), // Color when enabled
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                            Colors.brown), // Color when focused
-                                  ),
-                                  errorBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color:
-                                            Colors.black), // Color when error
-                                  ),
-                                  suffixIcon: IconButton(
-                                    icon: const Icon(
-                                      true
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        // _obscureText = !_obscureText; // Toggle the visibility
-                                      });
+                          child: TextFormField(
+                            controller: _passwordController,
+                            obscureText: _obsecureText,
+                            decoration: InputDecoration(
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(
+                                    () {
+                                      _obsecureText = !_obsecureText;
                                     },
-                                  ))),
+                                  );
+                                },
+                                child: Icon(
+                                  _obsecureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: const Color.fromARGB(0, 255, 255, 255),
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              hintText: 'Enter the password',
+                              labelStyle: TextStyle(
+                                color: Colors.brown[800],
+                              ),
+                              hintStyle: const TextStyle(
+                                color: Colors.brown,
+                              ),
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.brown), // Color when enabled
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.brown), // Color when focused
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.black), // Color when error
+                              ),
+                            ),
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -206,7 +185,7 @@ class _LoginpageState extends State<Loginpage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(),
+                                builder: (context) => const HomePage(),
                               ),
                             );
                           },
