@@ -25,13 +25,13 @@ class Servicecard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                   side: const BorderSide(
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 107, 73, 61),
                     width: 1.5,
                   ),
                 ),
               ),
               onPressed: () {
-                print("Button with title '$title' pressed");
+                _showPopup(context);
               },
               child: Image(
                 image: image,
@@ -53,4 +53,29 @@ class Servicecard extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showPopup(dynamic context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Wait Bro..'),
+        content: const Padding(
+          padding: EdgeInsets.only(left: 52, top: 35),
+          child: Text(
+            'Coming Soon..!',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the popup
+            },
+            child: const Text('Done'),
+          ),
+        ],
+      );
+    },
+  );
 }

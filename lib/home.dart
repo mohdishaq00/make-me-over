@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:makemeover/artistCard.dart';
 import 'package:makemeover/serviceCard.dart';
-// import 'package:makemeover/new.dart';
-// import 'package:makemeover/widgets/artistCard.dart';
-// import './widgets/serviceCard.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showPopup();
+    });
+  }
+
+  void _showPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Hi There!'),
+          content: const Padding(
+            padding: EdgeInsets.only(left: 52, top: 35),
+            child: Text(
+              'Pick Your Choice',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the popup
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +67,23 @@ class HomePage extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.menu,
+                    color: Color.fromARGB(255, 107, 73, 61),
                   ),
                   iconSize: 45,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: Text(
-                    'Hi There...',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
+                    'Make Me Over',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'ShortBaby',
+                      color: Color.fromARGB(255, 107, 73, 61),
+                    ),
                   ),
                 ),
                 const Spacer(),
@@ -96,7 +134,7 @@ class HomePage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width * .03,
                         MediaQuery.of(context).size.height * .04),
-                    backgroundColor: Colors.brown[900],
+                    backgroundColor: const Color.fromARGB(255, 107, 73, 61),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -124,10 +162,11 @@ class HomePage extends StatelessWidget {
               const Text(
                 'Top Services',
                 style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Aovel',
+                    letterSpacing: 2),
               ),
               const SizedBox(
                 height: 15,
@@ -156,10 +195,11 @@ class HomePage extends StatelessWidget {
               const Text(
                 'Top Artist',
                 style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Aovel',
+                    letterSpacing: 2),
               ),
 
               //Artist Card
@@ -173,7 +213,7 @@ class HomePage extends StatelessWidget {
                           title: 'Anna Teresa',
                           subtitle: 'Beauty Artist',
                           price: '27\$'),
-                      SizedBox(width: 10), // Add spacing between cards
+                      SizedBox(width: 10),
                       Artistcard(
                           img: 'assets/beauty_1.jpg',
                           title: 'Stephy',
