@@ -93,7 +93,7 @@ flutter:
         - asset: font_assets/short-baby-font/shortbaby.ttf
     - family: Aovel
       fonts:
-        - asset: font_assets/AovelSansRounded-rdDL.ttf
+        # - asset: font_assets/AovelSansRounded-rdDL.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

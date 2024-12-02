@@ -60,7 +60,7 @@ void _showPopup(dynamic context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Wait Bro..'),
+        // title: const Text('Wait Bro..'),
         content: const Padding(
           padding: EdgeInsets.only(left: 52, top: 35),
           child: Text(
