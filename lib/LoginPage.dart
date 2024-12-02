@@ -64,22 +64,6 @@ class _LoginpageState extends State<Loginpage> {
               ),
             ]),
           ),
-          // Positioned(top: 410,
-          //   child: Container(
-          //     height: 100,
-          //     width: MediaQuery.of(context).size.width,
-          //     decoration: const BoxDecoration(
-          //       gradient: LinearGradient(
-          //         colors: [Color.fromARGB(255, 11, 79, 121), Color.fromARGB(26, 90, 12, 142)],
-          //         begin: Alignment.bottomCenter,
-          //         end: Alignment.topCenter,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          // Padding(
-          // padding: const EdgeInsets.only(left: 300),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
