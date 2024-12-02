@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:makemeover/LoginPage.dart';
-import 'package:makemeover/home.dart';
+import 'package:makemeover/view/LoginPage.dart';
+import 'package:makemeover/view/home.dart';
 
 void main() {
   runApp(const MyApp());

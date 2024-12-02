@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:makemeover/artistCard.dart';
-import 'package:makemeover/serviceCard.dart';
+import 'package:makemeover/view/artistCard.dart';
+import 'package:makemeover/view/serviceCard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
