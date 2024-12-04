@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/home.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -9,8 +11,17 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+  @override
+  void initState() {
+    print('LOGIN PAGE');
+    super.initState();
+  }
+
   final TextEditingController _passwordController = TextEditingController();
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
   // ignore: non_constant_identifier_names
+
   bool _obsecureText = true;
   @override
   Widget build(BuildContext context) {
@@ -127,8 +138,8 @@ class _LoginpageState extends State<Loginpage> {
                                 },
                                 child: Icon(
                                   _obsecureText
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                 ),
                               ),
                               filled: true,
@@ -271,7 +282,9 @@ class _LoginpageState extends State<Loginpage> {
                                     height: 27,
                                     width: 30,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await signInWithGoogle();
+                                  },
                                   color: Colors.white,
                                   // child:  Center(
                                   //   child: Image.asset(''),
@@ -302,6 +315,48 @@ class _LoginpageState extends State<Loginpage> {
           )
         ],
       ),
+    );
+  }
+}
+
+Future<void> signInWithGoogle({BuildContext? context}) async {
+  try {
+    // Trigger Google Sign-In flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser == null) {
+      // User canceled the login
+      return;
+    }
+
+    // Obtain the auth details from the Google Sign-In
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // Create a credential for Firebase Authentication
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Sign in to Firebase with the credential
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    // Get the signed-in user
+    final User? user = userCredential.user;
+
+    // Navigate to HomePage or handle as needed
+    if (user != null) {
+      Navigator.push(
+        context!,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    }
+  } catch (e) {
+    print("Error during Google Sign-In: $e");
+    ScaffoldMessenger.of(context!).showSnackBar(
+      const SnackBar(content: Text("Google Sign-In failed")),
     );
   }
 }
