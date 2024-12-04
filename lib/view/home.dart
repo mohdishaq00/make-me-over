@@ -140,9 +140,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   child: Image.asset(
-                    'assets/settings.png', height: 45, width: 20,
-                    // height: MediaQuery.of(context).size.height * .06,
-                    // width: MediaQuery.of(context).size.width * .02,
+                    'assets/settings.png',
+                    height: 45,
+                    width: 20,
                   ),
                 )
               ],
@@ -181,6 +181,8 @@ class _HomePageState extends State<HomePage> {
                       return Servicecard(
                         title: data['title'],
                         image: data['image'],
+                        label: '',
+                        onPressed: () {},
                       );
                     }).toList(),
                   ),
@@ -219,8 +221,7 @@ class _HomePageState extends State<HomePage> {
                           title: 'Stephy',
                           subtitle: 'Beauty Artist',
                           price: '27\$'),
-
-                      divider(boxWidth: 10), // Add spacing between cards
+                      divider(boxWidth: 10),
                       const Artistcard(
                           img: "assets/beauty 2.jpg",
                           title: "Stella",
