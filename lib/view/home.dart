@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makemeover/view/ServiceFile.dart';
 import 'package:makemeover/view/artistCard.dart';
 import 'package:makemeover/view/serviceCard.dart';
 
@@ -44,18 +45,73 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> buttonData = [
-      {'title': 'Facial', 'image': const AssetImage('assets/facial.png')},
-      {'title': 'Beard', 'image': const AssetImage('assets/beard.png')},
-      {'title': 'Waxing', 'image': const AssetImage('assets/wax.png')},
-      {'title': 'Threading', 'image': const AssetImage('assets/threading.png')},
-      {'title': 'Pedicure', 'image': const AssetImage('assets/pedicure.png')},
-      {'title': 'Manicure', 'image': const AssetImage('assets/manicure.png')},
-      {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
-      {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
-      {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
+    // final List<Map<String, dynamic>> buttonData = [
+    //   {'title': 'Facial', 'image': const AssetImage('assets/facial.png')},
+    //   {'title': 'Beard', 'image': const AssetImage('assets/beard.png')},
+    //   {'title': 'Waxing', 'image': const AssetImage('assets/wax.png')},
+    //   {'title': 'Threading', 'image': const AssetImage('assets/threading.png')},
+    //   {'title': 'Pedicure', 'image': const AssetImage('assets/pedicure.png')},
+    //   {'title': 'Manicure', 'image': const AssetImage('assets/manicure.png')},
+    //   {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
+    //   {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
+    //   {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
+    // ];
+    final List<Map<String, dynamic>> pageData = [
+      {
+        "title": "Facial",
+        "description": "This is the data for Page 1.",
+        "txt": 'Facial Mancers',
+        "image": const AssetImage("assets/facial.png"),
+      },
+      {
+        "title": "Bearding",
+        "description": "This is the data for Page 2.",
+        "txt": 'Bearding Mancers',
+        "image": const AssetImage("assets/beard.png"),
+      },
+      {
+        "title": "Waxing",
+        "description": "This is the data for Page 3.",
+        "txt": 'Waxing Mancers',
+        "image": const AssetImage("assets/wax.png"),
+      },
+      {
+        "title": "Threading",
+        "description": "This is the data for Page 4.",
+        "txt": 'Threading Mancers',
+        "image": const AssetImage("assets/threading.png"),
+      },
+      {
+        "title": "Pedicure",
+        "description": "This is the data for Page 4.",
+        "txt": 'Pedicure Mancers',
+        "image": const AssetImage("assets/pedicure.png"),
+      },
+      {
+        "title": "Manicure",
+        "description": "This is the data for Page 4.",
+        "txt": 'Manicure Mancers',
+        "image": const AssetImage("assets/manicure.png"),
+      },
+      {
+        "title": "Haircut",
+        "description": "This is the data for Page 4.",
+        "txt": 'lHaircut Mancers',
+        "image": const AssetImage("assets/hair.png"),
+      },
+      {
+        "title": "Haircut",
+        "description": "This is the data for Page 4.",
+        "txt": 'Haircut Mancers',
+        "image": const AssetImage("assets/hair.png"),
+      },
+      {
+        "title": "Haircut",
+        "description": "This is the data for Page 4.",
+        "txt": 'Haircut Mancers',
+        "image": const AssetImage("assets/hair.png"),
+      },
     ];
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -177,12 +233,25 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 child: IntrinsicWidth(
                   child: Row(
-                    children: buttonData.map((data) {
+                    children: pageData.map((data) {
                       return Servicecard(
                         title: data['title'],
-                        image: data['image'],
+                        // : data['image'],
                         label: '',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ServiceArtistList(
+                                title: data['title'],
+                                description: data['description'],
+                                txt: data['txt'],
+                              ),
+                            ),
+                          );
+                        },
+                        image: data['image'],
                       );
                     }).toList(),
                   ),

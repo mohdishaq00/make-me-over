@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:makemeover/view/ServiceFile.dart';
+// import 'package:makemeover/view/ServiceFile.dart';
 
 class Servicecard extends StatelessWidget {
   final String title; // Text for the button
@@ -10,9 +10,10 @@ class Servicecard extends StatelessWidget {
   const Servicecard({
     super.key,
     required this.title,
-    required this.image,
+    // required this.image,
     required this.label,
     required this.onPressed,
+    required this.image,
   });
 
   @override
