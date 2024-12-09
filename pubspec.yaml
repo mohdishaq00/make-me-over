@@ -77,6 +77,11 @@ flutter:
       - assets/fb logo.webp
       - assets/logo g.webp
       - assets/makeup.jpg
+      - assets/mkeup.png
+      - assets/mkpimg2.png
+      - assets/image.png
+      
+      
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makemeover/profile.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
@@ -27,7 +28,13 @@ class _ArtistcardState extends State<Artistcard> {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
         onTap: () {
-          print("Card tapped!");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => profilepage(),
+              ));
+
+          // print("Card tapped!");
           // Perform any action for Card
         },
         child: Card(
