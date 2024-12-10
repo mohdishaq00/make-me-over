@@ -1,18 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:makemeover/view/signup.dart';
 
-class Loginpage extends StatefulWidget {
-  const Loginpage({super.key});
+class Signup extends StatefulWidget {
+  const Signup({super.key});
 
   @override
-  State<Loginpage> createState() => _LoginpageState();
+  State<Signup> createState() => _LoginpageState();
 }
 
-class _LoginpageState extends State<Loginpage> {
+class _LoginpageState extends State<Signup> {
   @override
   void initState() {
     print('LOGIN PAGE');
@@ -71,7 +69,7 @@ class _LoginpageState extends State<Loginpage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Let\'s get your Login!',
+                  'Create Your Account',
                   style: TextStyle(
                     fontFamily: 'jaro',
                     color: Colors.white,
@@ -94,6 +92,35 @@ class _LoginpageState extends State<Loginpage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextField(
+                            cursorColor: Colors.brown,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText: "User name",
+                              labelStyle: TextStyle(
+                                color: Colors.brown[800],
+                              ),
+                              hintText: 'Enter here',
+                              hintStyle: const TextStyle(
+                                color: Colors.brown,
+                              ),
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.brown), // Color when enabled
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.brown), // Color when focused
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.black), // Color when error
+                              ),
+                            ),
+                          ),
+                        ),
                         // const SizedBox(height: 30),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -152,8 +179,7 @@ class _LoginpageState extends State<Loginpage> {
                                   Radius.circular(10),
                                 ),
                               ),
-                              labelText: 'Password',
-                              labelStyle: TextStyle(
+                              labelText: 'Password', labelStyle: TextStyle(
                                 color: Colors.brown[800],
                               ),
                               hintText: 'Enter the password',
@@ -175,31 +201,8 @@ class _LoginpageState extends State<Loginpage> {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(right: 50),
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Forgottpassword(),
-                                      ),
-                                    );
-                                  },
-                                  // print('Forgot password button pressed');
-
-                                  child: const Text(
-                                    "forgot password?",
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 44, 25, 22),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                )),
-                          ],
-                        ),
+                        
+                        
                         // const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
@@ -224,33 +227,7 @@ class _LoginpageState extends State<Loginpage> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    const Text(
-                                      'Don\'t have an account?',
-                                      style: TextStyle(color: Colors.brown),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext ctx) =>
-                                                    Signup()));
-                                      },
-                                      child: Text(
-                                        "Register Now",
-                                        style: TextStyle(
-                                            color: Colors.brown[900],
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ]),
-                            ),
+                           
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
