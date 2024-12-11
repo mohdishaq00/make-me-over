@@ -12,15 +12,15 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   @override
-  void initState() {
-    print('LOGIN PAGE');
-    super.initState();
-  }
-
+  
   final TextEditingController _passwordController = TextEditingController();
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  String? _email;
+  String? pass;
 
-  // ignore: non_constant_identifier_names
+ void signin(){
+
+  }
 
   bool _obsecureText = true;
   @override
@@ -48,7 +48,7 @@ class _LoginpageState extends State<Loginpage> {
                     gradient: const LinearGradient(
                       colors: [
                         Color.fromARGB(222, 109, 60, 42),
-                        Color.fromARGB(255, 29, 13, 6)
+                        Color.fromARGB(255, 0, 0, 0)
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
@@ -283,7 +283,7 @@ class _LoginpageState extends State<Loginpage> {
                                     width: 30,
                                   ),
                                   onPressed: () async {
-                                    await signInWithGoogle();
+                                    
                                   },
                                   color: Colors.white,
                                   // child:  Center(
@@ -319,44 +319,3 @@ class _LoginpageState extends State<Loginpage> {
   }
 }
 
-Future<void> signInWithGoogle({BuildContext? context}) async {
-  try {
-    // Trigger Google Sign-In flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    if (googleUser == null) {
-      // User canceled the login
-      return;
-    }
-
-    // Obtain the auth details from the Google Sign-In
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    // Create a credential for Firebase Authentication
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Sign in to Firebase with the credential
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    // Get the signed-in user
-    final User? user = userCredential.user;
-
-    // Navigate to HomePage or handle as needed
-    if (user != null) {
-      Navigator.push(
-        context!,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    }
-  } catch (e) {
-    print("Error during Google Sign-In: $e");
-    ScaffoldMessenger.of(context!).showSnackBar(
-      const SnackBar(content: Text("Google Sign-In failed")),
-    );
-  }
-}
