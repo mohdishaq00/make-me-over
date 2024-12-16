@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/ServiceFile.dart';
 import 'package:makemeover/view/artistCard.dart';
+
 import 'package:makemeover/view/serviceCard.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,17 +46,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final List<Map<String, dynamic>> buttonData = [
-    //   {'title': 'Facial', 'image': const AssetImage('assets/facial.png')},
-    //   {'title': 'Beard', 'image': const AssetImage('assets/beard.png')},
-    //   {'title': 'Waxing', 'image': const AssetImage('assets/wax.png')},
-    //   {'title': 'Threading', 'image': const AssetImage('assets/threading.png')},
-    //   {'title': 'Pedicure', 'image': const AssetImage('assets/pedicure.png')},
-    //   {'title': 'Manicure', 'image': const AssetImage('assets/manicure.png')},
-    //   {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
-    //   {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
-    //   {'title': 'Haircut', 'image': const AssetImage('assets/hair.png')},
-    // ];
     final List<Map<String, dynamic>> pageData = [
       {
         "title": "Facial",
@@ -166,13 +156,17 @@ class _HomePageState extends State<HomePage> {
                       color: const Color.fromARGB(159, 190, 167, 159),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const TextField(
+                    child: TextField(
                       decoration: InputDecoration(
                         icon: Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Icon(
-                            Icons.search,
-                          ),
+                          padding: const EdgeInsets.only(left: 10),
+                          child: IconButton(
+                              icon: const Icon(Icons.search), onPressed: () {}
+                              //   showSearch(
+                              //       context: context,
+
+                              // },
+                              ),
                         ),
                         labelText: 'Find your best artist..',
                         border: InputBorder.none,

@@ -15,15 +15,38 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   @override
   void initState() {
-    print('LOGIN PAGE');
+    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    //   if (user == null) {
+    //     Navigator.push(
+    //       // ignore: use_build_context_synchronously
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => const Loginpage(),
+    //       ),
+    //     );
+    //   } else {
+    //     Navigator.push(
+    //       // ignore: use_build_context_synchronously
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => const HomePage(),
+    //       ),
+    //     );
+    //   }
+    // });
     super.initState();
   }
 
+<<<<<<< HEAD
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+=======
+  final _passwordController = TextEditingController();
+  final _usernamecontroller = TextEditingController();
+>>>>>>> e7a4b489821ba77a2448fc7fc19d7eb465348309
   final GoogleSignIn googleSignIn = GoogleSignIn();
   // Future<void> _login() async {
   //   try {
@@ -127,7 +150,11 @@ class _LoginpageState extends State<Loginpage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
+<<<<<<< HEAD
                             controller: _emailController,
+=======
+                            controller: _usernamecontroller,
+>>>>>>> e7a4b489821ba77a2448fc7fc19d7eb465348309
                             cursorColor: Colors.brown,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -234,9 +261,13 @@ class _LoginpageState extends State<Loginpage> {
                         // const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
+<<<<<<< HEAD
                             // _login();
                             
                             
+=======
+                            checkLogin();
+>>>>>>> e7a4b489821ba77a2448fc7fc19d7eb465348309
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -327,7 +358,7 @@ class _LoginpageState extends State<Loginpage> {
                                     width: 30,
                                   ),
                                   onPressed: () async {
-                                    await signInWithGoogle();
+                                    // await signInWithGoogle();
                                   },
                                   color: Colors.white,
                                   // child:  Center(
@@ -361,46 +392,82 @@ class _LoginpageState extends State<Loginpage> {
       ),
     );
   }
-}
 
-Future<void> signInWithGoogle({BuildContext? context}) async {
-  try {
-    // Trigger Google Sign-In flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    if (googleUser == null) {
-      // User canceled the login
-      return;
-    }
-
-    // Obtain the auth details from the Google Sign-In
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    // Create a credential for Firebase Authentication
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Sign in to Firebase with the credential
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    // Get the signed-in user
-    final User? user = userCredential.user;
-
-    // Navigate to HomePage or handle as needed
-    if (user != null) {
+  checkLogin() {
+    const String _errorMesage = 'Inavalid username or password';
+    final username = _usernamecontroller.text;
+    final password = _passwordController.text;
+    // ignore: unnecessary_null_comparison
+    if (username == password) {
+      //go to home page
       Navigator.push(
-        context!,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            _errorMesage,
+            style: TextStyle(color: Colors.yellow),
+          ),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(20),
+          backgroundColor: const Color.fromARGB(255, 244, 0, 0),
+          action: SnackBarAction(
+            label: 'Close',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+          duration: const Duration(seconds: 3),
+        ),
       );
     }
-  } catch (e) {
-    print("Error during Google Sign-In: $e");
-    ScaffoldMessenger.of(context!).showSnackBar(
-      const SnackBar(content: Text("Google Sign-In failed")),
-    );
   }
 }
+
+
+// Future<void> signInWithGoogle({BuildContext? context}) async {
+//   try {
+//     // Trigger Google Sign-In flow
+//     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+//     if (googleUser == null) {
+//       // User canceled the login
+//       return;
+//     }
+
+//     // Obtain the auth details from the Google Sign-In
+//     final GoogleSignInAuthentication googleAuth =
+//         await googleUser.authentication;
+
+//     // Create a credential for Firebase Authentication
+//     final credential = GoogleAuthProvider.credential(
+//       accessToken: googleAuth.accessToken,
+//       idToken: googleAuth.idToken,
+//     );
+
+//     // Sign in to Firebase with the credential
+//     final UserCredential userCredential =
+//         await FirebaseAuth.instance.signInWithCredential(credential);
+
+//     // Get the signed-in user
+//     final User? user = userCredential.user;
+
+//     // Navigate to HomePage or handle as needed
+//     if (user != null) {
+//       Navigator.push(
+//         context!,
+//         MaterialPageRoute(builder: (context) => const HomePage()),
+//       );
+//     }
+//   } catch (e) {
+//     print("Error during Google Sign-In: $e");
+//     ScaffoldMessenger.of(context!).showSnackBar(
+//       const SnackBar(content: Text("Google Sign-In failed")),
+//     );
+//   }
+// }
