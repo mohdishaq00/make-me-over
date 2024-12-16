@@ -19,10 +19,39 @@ class _LoginpageState extends State<Loginpage> {
     super.initState();
   }
 
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GoogleSignIn googleSignIn = GoogleSignIn();
-
-  // ignore: non_constant_identifier_names
+  // Future<void> _login() async {
+  //   try {
+  //     // Validate email and password fields
+  //     if (_formKey.currentState!.validate()) {
+  //       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+  //         email: _emailController.text.trim(),
+  //         password: _passwordController.text.trim(),
+  //       );
+  //       final User? user = _auth.currentUser;
+  //       // ignore: unused_local_variable
+  //       final uid = user!.uid;
+  //       print(uid);
+  //       print("User logged in: ${userCredential.user?.email}");
+  //       // ignore: non_constant_identifier_names
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => HomePage()),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     print("Login failed: $e");
+  //     // Show error message to the user
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Login failed: $e")),
+  //     );
+  //   }
+  // }
 
   bool _obsecureText = true;
   @override
@@ -98,6 +127,7 @@ class _LoginpageState extends State<Loginpage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
+                            controller: _emailController,
                             cursorColor: Colors.brown,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -118,8 +148,8 @@ class _LoginpageState extends State<Loginpage> {
                                     color: Colors.brown), // Color when focused
                               ),
                               errorBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.black), // Color when error
+                                borderSide: BorderSide(color: Colors.black),
+                                // Color when error
                               ),
                             ),
                           ),
@@ -185,7 +215,8 @@ class _LoginpageState extends State<Loginpage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const Forgottpassword(),
+                                        builder: (context) =>
+                                            const Forgottpassword(),
                                       ),
                                     );
                                   },
@@ -203,12 +234,9 @@ class _LoginpageState extends State<Loginpage> {
                         // const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomePage(),
-                              ),
-                            );
+                            // _login();
+                            
+                            
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),

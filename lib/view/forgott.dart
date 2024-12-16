@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makemeover/view/Verification.dart';
 
 class Forgottpassword extends StatefulWidget {
   const Forgottpassword({super.key});
@@ -30,19 +31,45 @@ class _ForgottpasswordState extends State<Forgottpassword> {
                 ),
                 Text('Enter your email to reset password'),
               ],
-          
             ),
-          ),Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 500),
-            child: TextField(
+          ),
+          Container(
+            padding: const EdgeInsets.all(30.0),
+            child: const TextField(
               decoration: InputDecoration(
-                labelText: 'Email'
+                labelText: 'Email',
+                border: OutlineInputBorder(),
               ),
             ),
-          )
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const VerificationPage()),
+              );
+            },
+            child: const Text(
+              'Continue',
+              style:
+                  TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.brown[400], // Background color
+              // Text color
+              padding: const EdgeInsets.symmetric(
+                horizontal: 60,
+                vertical: 20,
+              ), // Padding
+              shape: const StadiumBorder(
+                  // Rounded corners
+                  ),
+              elevation: 5, // Shadow elevation
+            ),
+          ),
         ],
       ),
-      
     );
   }
 }

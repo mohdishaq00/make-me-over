@@ -17,10 +17,25 @@ class _LoginpageState extends State<Signup> {
     super.initState();
   }
 
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   // ignore: non_constant_identifier_names
+  // Future<void> _register() async {
+  //   try {
+  //     UserCredential userCredential =
+  //         await _auth.createUserWithEmailAndPassword(
+  //       email: _emailController.text.trim(),
+  //       password: _passwordController.text.trim(),
+  //     );
+  //     print("User registered: ${userCredential.user?.email}");
+  //     print('11111111111111111111111111111111111111');
+  //   } catch (e) {
+  //     print("Registration failed: $e");
+  //   }
+  // }
 
   bool _obsecureText = true;
   @override
@@ -125,6 +140,7 @@ class _LoginpageState extends State<Signup> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
+                            controller: _emailController,
                             cursorColor: Colors.brown,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -179,7 +195,8 @@ class _LoginpageState extends State<Signup> {
                                   Radius.circular(10),
                                 ),
                               ),
-                              labelText: 'Password', labelStyle: TextStyle(
+                              labelText: 'Password',
+                              labelStyle: TextStyle(
                                 color: Colors.brown[800],
                               ),
                               hintText: 'Enter the password',
@@ -201,17 +218,12 @@ class _LoginpageState extends State<Signup> {
                             ),
                           ),
                         ),
-                        
-                        
+
                         // const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomePage(),
-                              ),
-                            );
+                            // _register();
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage() ));
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -227,7 +239,6 @@ class _LoginpageState extends State<Signup> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                           
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
