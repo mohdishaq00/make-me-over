@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:makemeover/view/home.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:makemeover/viewmodel/authentication.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -11,15 +10,34 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-  @override
   
+
+  // this string is take erorr massge and view erorr massege to snackbar
+  String? errormessage;
+
+  // is controllers for email and password this this will provide signing deta to signing function
   final TextEditingController _passwordController = TextEditingController();
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-  String? _email;
-  String? pass;
+  final TextEditingController _emailcontriller=TextEditingController();
 
- void signin(){
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _emailcontriller.dispose();
+    super.dispose();
+  }
 
+  // signing function this function work in authentication.asigningwithemailandpassoword
+  // signing with email and password
+ Future<void> signingemail() async {
+    try {
+      await Authentication().signing(_emailcontriller.text, _passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errormessage=e.message;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('$errormessage')));
+      });
+    }
   }
 
   bool _obsecureText = true;
@@ -96,6 +114,7 @@ class _LoginpageState extends State<Loginpage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
+                            controller: _emailcontriller,
                             cursorColor: Colors.brown,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -193,12 +212,7 @@ class _LoginpageState extends State<Loginpage> {
                         // const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomePage(),
-                              ),
-                            );
+                            signingemail();
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -318,4 +332,3 @@ class _LoginpageState extends State<Loginpage> {
     );
   }
 }
-
