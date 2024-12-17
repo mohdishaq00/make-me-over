@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:makemeover/viewmodel/authentication.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -17,25 +18,26 @@ class _LoginpageState extends State<Signup> {
     super.initState();
   }
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  String? errormessage;
+
+  // text editing controler for pass email and password throgh signup function
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  
+  // signup function throgh creat user with email and password
+  Future<void>signup()async{
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    try {
+      Authentication().createuser(_emailController.text.trim(), _passwordController.text.trim());
+      print('success');
+    }on FirebaseAuthException catch (e) {
+      errormessage=e.message;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('$errormessage')));
+            print(errormessage);
+    }
+  }
 
-  // ignore: non_constant_identifier_names
-  // Future<void> _register() async {
-  //   try {
-  //     UserCredential userCredential =
-  //         await _auth.createUserWithEmailAndPassword(
-  //       email: _emailController.text.trim(),
-  //       password: _passwordController.text.trim(),
-  //     );
-  //     print("User registered: ${userCredential.user?.email}");
-  //     print('11111111111111111111111111111111111111');
-  //   } catch (e) {
-  //     print("Registration failed: $e");
-  //   }
-  // }
 
   bool _obsecureText = true;
   @override
@@ -223,7 +225,7 @@ class _LoginpageState extends State<Signup> {
                         ElevatedButton(
                           onPressed: () {
                             // _register();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage() ));
+                            signup();
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -231,7 +233,7 @@ class _LoginpageState extends State<Signup> {
                                   const Color.fromRGBO(78, 52, 46, 1),
                               shape: const StadiumBorder()),
                           child: const Text(
-                            'Login',
+                            'signup',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

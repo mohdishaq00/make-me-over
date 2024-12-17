@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makemeover/view/LoginPage.dart';
 import 'package:makemeover/view/ServiceFile.dart';
 import 'package:makemeover/view/artistCard.dart';
 
@@ -133,12 +134,17 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const Spacer(),
-                const CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage(
-                    'assets/me.jpeg',
-                  ),
-                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Loginpage()),
+                    );
+                  },
+                  icon: Icon(Icons.account_circle_rounded),
+                  iconSize: 35,
+                )
               ],
             ),
             divider(
