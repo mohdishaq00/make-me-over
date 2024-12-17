@@ -18,78 +18,15 @@ class _LoginpageState extends State<Loginpage> {
   
   @override
   void initState() {
-    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //   if (user == null) {
-    //     Navigator.push(
-    //       // ignore: use_build_context_synchronously
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => const Loginpage(),
-    //       ),
-    //     );
-    //   } else {
-    //     Navigator.push(
-    //       // ignore: use_build_context_synchronously
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => const HomePage(),
-    //       ),
-    //     );
-    //   }
-    // });
+   
     super.initState();
   }
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final GoogleSignIn googleSignIn = GoogleSignIn();
-
-  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   // final _passwordController = TextEditingController();
   final _usernamecontroller = TextEditingController();
-  // Future<void> _login() async {
-  //   try {
-  //     // Validate email and password fields
-  //     if (_formKey.currentState!.validate()) {
-  //       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-  //         email: _emailController.text.trim(),
-  //         password: _passwordController.text.trim(),
-  //       );
-  //       final User? user = _auth.currentUser;
-  //       // ignore: unused_local_variable
-  //       final uid = user!.uid;
-  //       print(uid);
-  //       print("User logged in: ${userCredential.user?.email}");
-  //       // ignore: non_constant_identifier_names
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => HomePage()),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     print("Login failed: $e");
-  //     // Show error message to the user
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text("Login failed: $e")),
-  //     );
-  //   }
-  // }
-  // Future<User?> signInWithGoogle() async {
-  //   final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-  //   final GoogleSignInAuthentication? googleAuth =
-  //       await googleUser?.authentication;
-
-  //   final AuthCredential credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-
-  //   UserCredential userCredential =
-  //       await _auth.signInWithCredential(credential);
-  //   return userCredential.user;
-  // }
 
   bool _obsecureText = true;
   @override
