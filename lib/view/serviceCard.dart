@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+// import 'package:makemeover/view/ServiceFile.dart';
 
 class Servicecard extends StatelessWidget {
   final String title; // Text for the button
   final ImageProvider image;
+  final String label;
+  final VoidCallback onPressed;
 
   const Servicecard({
     super.key,
     required this.title,
+    // required this.image,
+    required this.label,
+    required this.onPressed,
     required this.image,
   });
 
@@ -30,9 +36,7 @@ class Servicecard extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {
-                _showPopup(context);
-              },
+              onPressed: onPressed,
               child: Image(
                 image: image,
               ),
@@ -53,29 +57,4 @@ class Servicecard extends StatelessWidget {
       ),
     );
   }
-}
-
-void _showPopup(dynamic context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Wait Bro..'),
-        content: const Padding(
-          padding: EdgeInsets.only(left: 52, top: 35),
-          child: Text(
-            'Coming Soon..!',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the popup
-            },
-            child: const Text('Done'),
-          ),
-        ],
-      );
-    },
-  );
 }

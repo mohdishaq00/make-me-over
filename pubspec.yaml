@@ -30,11 +30,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  url_launcher: ^6.3.1  
+  share_plus: ^10.1.2
+  google_fonts: ^6.2.1
+  
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  firebase_auth: ^5.3.3
+  firebase_core: ^3.8.0
+  google_sign_in: ^6.2.2
+  firebase_core_dart: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +89,10 @@ flutter:
       - assets/mkeup.png
       - assets/mkpimg2.png
       - assets/image.png
+      - assets/imagecopy.png
+      - assets/facial123.png
+      - assets/makeup123.png
+      - assets/hair123.png
       
       
 
@@ -100,7 +113,7 @@ flutter:
         - asset: font_assets/short-baby-font/shortbaby.ttf
     - family: Aovel
       fonts:
-        - asset: font_assets/AovelSansRounded-rdDL.ttf
+        # - asset: font_assets/AovelSansRounded-rdDL.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:makemeover/profile.dart';
 
@@ -24,18 +25,19 @@ class _ArtistcardState extends State<Artistcard> {
   Widget build(
     BuildContext context,
   ) {
-    return Padding(
+    return Padding( 
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => profilepage(),
+                builder: (context) => const profilepage(),
               ));
 
           // print("Card tapped!");
           // Perform any action for Card
+          _showPopup(context); // Perform any action for Card
         },
         child: Card(
           clipBehavior: Clip.antiAlias,
@@ -54,7 +56,7 @@ class _ArtistcardState extends State<Artistcard> {
                   children: [
                     Container(
                       width: 450,
-                      height: 200,
+                      height: 220,
                       color: Colors.blueAccent,
                       child: Image.asset(
                         widget.img,
@@ -85,51 +87,51 @@ class _ArtistcardState extends State<Artistcard> {
                 // Bottom Text Container
                 Container(
                   width: 450,
-                  height: 100,
+                  height: 80,
                   color: const Color.fromARGB(255, 193, 208, 210),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.title,
-                              style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black),
-                            ),
-                            const SizedBox(
-                              width: 300,
-                            ),
-                            Image.asset(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        widget.title,
+                        style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
+                      // const SizedBox(
+                      //   width: 300,
+                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 3, right: 3),
+                            child: Image.asset(
                               'assets/Star.png',
-                              height: 20,
-                              width: 20,
+                              height: 18,
+                              width: 18,
                             ),
-                            const Text('4.2')
-                          ],
-                        ),
-                        Text(
-                          widget.subtitle,
-                          style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black38),
-                        ),
-                        Text(
-                          widget.price,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
+                          ),
+                          const Text('4.2'),
+                        ],
+                      ),
+
+                      Text(
+                        widget.subtitle,
+                        style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black38),
+                      ),
+                      Text(
+                        widget.price,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -139,4 +141,29 @@ class _ArtistcardState extends State<Artistcard> {
       ),
     );
   }
+}
+
+void _showPopup(dynamic context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        // title: const Text('Wait Bro..'),
+        content: const Padding(
+          padding: EdgeInsets.only(left: 52, top: 35),
+          child: Text(
+            'Coming Soon..!',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the popup
+            },
+            child: const Text('Done'),
+          ),
+        ],
+      );
+    },
+  );
 }

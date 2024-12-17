@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1010428768816",
+    "project_id": "makemeover-1cf53",
+    "storage_bucket": "makemeover-1cf53.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010428768816:android:253ba7817ef6c20e11b3f5",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_7"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6o50rqA-cTt9pr8bDANHqRAn1UN98S64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010428768816:android:f0aaf608b0c83b7b11b3f5",
+        "android_client_info": {
+          "package_name": "com.example.makemeover"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6o50rqA-cTt9pr8bDANHqRAn1UN98S64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

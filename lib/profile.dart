@@ -1,7 +1,10 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:makemeover/aboutus.dart';
 // import 'package:makemeover/artistCard.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 // ignore: camel_case_types
 class profilepage extends StatefulWidget {
@@ -11,9 +14,43 @@ class profilepage extends StatefulWidget {
   State<profilepage> createState() => _MyWidgetState();
 }
 
+// ignore: unused_element
 Color _buttonColor = const Color(0xFFFFF8F0);
 
 class _MyWidgetState extends State<profilepage> {
+  final String artistPhoneNumber = "+918590408846";
+  Future<void> _launchMaps() async {
+    double latitude = 10.9786;
+    double longitude = 76.2197;
+
+    final url =
+        'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude&travelmode=driving';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void redirectToWhatsApp(String phoneNumber) async {
+    final String url = "https://wa.me/$phoneNumber";
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunch(phoneUri.toString())) {
+      await launch(phoneUri.toString());
+    } else {
+      throw 'Could not launch $phoneNumber';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +74,7 @@ class _MyWidgetState extends State<profilepage> {
                         ),
                         child: Row(
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(top: 100, left: 20),
                             ),
                             Container(
@@ -84,7 +121,7 @@ class _MyWidgetState extends State<profilepage> {
                                       height: 5,
                                     ),
                                     const Text(
-                                      'By Amber Heard',
+                                      'By Anna teressa',
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.black,
@@ -227,11 +264,7 @@ class _MyWidgetState extends State<profilepage> {
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //     top: 30,
-                //   ),
-                // child:
+
                 const SizedBox(
                   height: 30,
                 ),
@@ -241,16 +274,15 @@ class _MyWidgetState extends State<profilepage> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // print("Button Pressed");
+                        _makePhoneCall('9778743278');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange[50], // Background color
-                        minimumSize: const Size(100, 100), // Width and Height
+                        backgroundColor: Colors.deepOrange[50],
+                        minimumSize: const Size(100, 100),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              10), // Optional: rounded corners
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 4, // Shadow effect
+                        elevation: 4,
                       ),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -275,18 +307,15 @@ class _MyWidgetState extends State<profilepage> {
                       width: 30,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        // print("Button Pressed");
-                      },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange[50], // Background color
-                        minimumSize: const Size(100, 100), // Width and Height
+                        backgroundColor: Colors.deepOrange[50],
+                        minimumSize: const Size(100, 100),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              10), // Optional: rounded corners
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 4, // Shadow effect
+                        elevation: 4,
                       ),
+                      onPressed: () => redirectToWhatsApp(artistPhoneNumber),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -310,17 +339,14 @@ class _MyWidgetState extends State<profilepage> {
                       width: 30,
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        // print("Button Pressed");
-                      },
+                      onPressed: _launchMaps,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange[50], // Background color
-                        minimumSize: const Size(100, 100), // Width and Height
+                        backgroundColor: Colors.deepOrange[50],
+                        minimumSize: const Size(100, 100),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              10), // Optional: rounded corners
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 4, // Shadow effect
+                        elevation: 4,
                       ),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -344,18 +370,18 @@ class _MyWidgetState extends State<profilepage> {
                     const SizedBox(
                       width: 30,
                     ),
+
                     ElevatedButton(
                       onPressed: () {
-                        // print("Button Pressed");
+                        Share.share('Check out this cool app!');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange[50],// Background color
-                        minimumSize: const Size(100, 100), // Width and Height
+                        backgroundColor: Colors.deepOrange[50],
+                        minimumSize: const Size(100, 100),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              10), // Optional: rounded corners
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 4, // Shadow effect
+                        elevation: 4,
                       ),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -369,13 +395,48 @@ class _MyWidgetState extends State<profilepage> {
                           Text(
                             "Share",
                             style: TextStyle(
-                                color: Color.fromRGBO(78, 52, 46, 1),
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold),
+                              color: Color.fromRGBO(78, 52, 46, 1),
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
                     ),
+
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     // print("Button Pressed");
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor:
+                    //         Colors.deepOrange[50], // Background color
+                    //     minimumSize: const Size(100, 100), // Width and Height
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(
+                    //           10), // Optional: rounded corners
+                    //     ),
+                    //     elevation: 4, // Shadow effect
+                    //   ),
+                    //   child: const Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       Icon(
+                    //         Icons.share,
+                    //         size: 30,
+                    //         color: Color.fromRGBO(78, 52, 46, 1),
+                    //       ),
+                    //       Text(
+                    //         "Share",
+                    //         style: TextStyle(
+                    //             color: Color.fromRGBO(78, 52, 46, 1),
+                    //             fontSize: 19,
+                    //             fontWeight: FontWeight.bold),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
 
@@ -388,25 +449,24 @@ class _MyWidgetState extends State<profilepage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            // print("Button Pressed");
-                          },
+                          onPressed: () {Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutUs()),
+            );
+          },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue, // Background color
-                            minimumSize:
-                                const Size(200, 50), // Width and Height
+                            backgroundColor: Colors.blue,
+                            minimumSize: const Size(200, 50),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  8), // Optional: rounded corners
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            elevation: 4, // Shadow effect
+                            elevation: 4,
                           ),
                           child: const Center(
                             child: Text(
                               "About",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18), // Text style
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ),
                         ),
@@ -414,25 +474,20 @@ class _MyWidgetState extends State<profilepage> {
                           width: 15,
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            // print("Button Pressed");
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue, // Background color
-                            minimumSize:
-                                const Size(200, 50), // Width and Height
+                            backgroundColor: Colors.blue,
+                            minimumSize: const Size(200, 50),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  8), // Optional: rounded corners
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            elevation: 4, // Shadow effect
+                            elevation: 4,
                           ),
                           child: const Center(
                             child: Text(
                               "Services",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18), // Text style
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ),
                         ),
@@ -440,25 +495,20 @@ class _MyWidgetState extends State<profilepage> {
                           width: 15,
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            // print("Button Pressed");
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue, // Background color
-                            minimumSize:
-                                const Size(200, 50), // Width and Height
+                            backgroundColor: Colors.blue,
+                            minimumSize: const Size(200, 50),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  8), // Optional: rounded corners
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            elevation: 4, // Shadow effect
+                            elevation: 4,
                           ),
                           child: const Center(
                             child: Text(
                               "Overview",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18), // Text style
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ),
                         ),
@@ -494,3 +544,4 @@ Widget pictureCard({
     ),
   );
 }
+
