@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
@@ -37,17 +38,15 @@ class _LoginpageState extends State<Loginpage> {
     super.initState();
   }
 
-<<<<<<< HEAD
   // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final GoogleSignIn googleSignIn = GoogleSignIn();
+
   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-=======
-  final _passwordController = TextEditingController();
+  // final _passwordController = TextEditingController();
   final _usernamecontroller = TextEditingController();
->>>>>>> e7a4b489821ba77a2448fc7fc19d7eb465348309
-  final GoogleSignIn googleSignIn = GoogleSignIn();
   // Future<void> _login() async {
   //   try {
   //     // Validate email and password fields
@@ -74,6 +73,20 @@ class _LoginpageState extends State<Loginpage> {
   //       SnackBar(content: Text("Login failed: $e")),
   //     );
   //   }
+  // }
+  // Future<User?> signInWithGoogle() async {
+  //   final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+  //   final GoogleSignInAuthentication? googleAuth =
+  //       await googleUser?.authentication;
+
+  //   final AuthCredential credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth?.accessToken,
+  //     idToken: googleAuth?.idToken,
+  //   );
+
+  //   UserCredential userCredential =
+  //       await _auth.signInWithCredential(credential);
+  //   return userCredential.user;
   // }
 
   bool _obsecureText = true;
@@ -150,11 +163,8 @@ class _LoginpageState extends State<Loginpage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
-<<<<<<< HEAD
                             controller: _emailController,
-=======
-                            controller: _usernamecontroller,
->>>>>>> e7a4b489821ba77a2448fc7fc19d7eb465348309
+                            // controller: _usernamecontroller,
                             cursorColor: Colors.brown,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -261,13 +271,9 @@ class _LoginpageState extends State<Loginpage> {
                         // const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-<<<<<<< HEAD
                             // _login();
-                            
-                            
-=======
+
                             checkLogin();
->>>>>>> e7a4b489821ba77a2448fc7fc19d7eb465348309
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -358,6 +364,9 @@ class _LoginpageState extends State<Loginpage> {
                                     width: 30,
                                   ),
                                   onPressed: () async {
+                                    // User? user = await signInWithGoogle();
+                                    // if (user != null) {}
+
                                     // await signInWithGoogle();
                                   },
                                   color: Colors.white,
@@ -426,6 +435,13 @@ class _LoginpageState extends State<Loginpage> {
         ),
       );
     }
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<TextEditingController>(
+        '_passwordController', _passwordController));
   }
 }
 
