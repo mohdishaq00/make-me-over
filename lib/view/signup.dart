@@ -1,93 +1,43 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:makemeover/view/signup.dart';
+import 'package:makemeover/viewmodel/authentication.dart';
 
-class Loginpage extends StatefulWidget {
-  const Loginpage({super.key});
+class Signup extends StatefulWidget {
+  const Signup({super.key});
 
   @override
-  State<Loginpage> createState() => _LoginpageState();
+  State<Signup> createState() => _LoginpageState();
 }
 
-class _LoginpageState extends State<Loginpage> {
+class _LoginpageState extends State<Signup> {
   @override
   void initState() {
-    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    //   if (user == null) {
-    //     Navigator.push(
-    //       // ignore: use_build_context_synchronously
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => const Loginpage(),
-    //       ),
-    //     );
-    //   } else {
-    //     Navigator.push(
-    //       // ignore: use_build_context_synchronously
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => const HomePage(),
-    //       ),
-    //     );
-    //   }
-    // });
+    print('LOGIN PAGE');
     super.initState();
   }
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final GoogleSignIn googleSignIn = GoogleSignIn();
+  String? errormessage;
 
-  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  // text editing controler for pass email and password throgh signup function
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // final _passwordController = TextEditingController();
-  final _usernamecontroller = TextEditingController();
-  // Future<void> _login() async {
-  //   try {
-  //     // Validate email and password fields
-  //     if (_formKey.currentState!.validate()) {
-  //       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-  //         email: _emailController.text.trim(),
-  //         password: _passwordController.text.trim(),
-  //       );
-  //       final User? user = _auth.currentUser;
-  //       // ignore: unused_local_variable
-  //       final uid = user!.uid;
-  //       print(uid);
-  //       print("User logged in: ${userCredential.user?.email}");
-  //       // ignore: non_constant_identifier_names
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => HomePage()),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     print("Login failed: $e");
-  //     // Show error message to the user
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text("Login failed: $e")),
-  //     );
-  //   }
-  // }
-  // Future<User?> signInWithGoogle() async {
-  //   final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-  //   final GoogleSignInAuthentication? googleAuth =
-  //       await googleUser?.authentication;
+  
+  // signup function throgh creat user with email and password
+  Future<void>signup()async{
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    try {
+      Authentication().createuser(_emailController.text.trim(), _passwordController.text.trim());
+      print('success');
+    }on FirebaseAuthException catch (e) {
+      errormessage=e.message;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('$errormessage')));
+            print(errormessage);
+    }
+  }
 
-  //   final AuthCredential credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-
-  //   UserCredential userCredential =
-  //       await _auth.signInWithCredential(credential);
-  //   return userCredential.user;
-  // }
 
   bool _obsecureText = true;
   @override
@@ -136,7 +86,7 @@ class _LoginpageState extends State<Loginpage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Let\'s get your Login!',
+                  'Create Your Account',
                   style: TextStyle(
                     fontFamily: 'jaro',
                     color: Colors.white,
@@ -159,12 +109,40 @@ class _LoginpageState extends State<Loginpage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextField(
+                            cursorColor: Colors.brown,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText: "User name",
+                              labelStyle: TextStyle(
+                                color: Colors.brown[800],
+                              ),
+                              hintText: 'Enter here',
+                              hintStyle: const TextStyle(
+                                color: Colors.brown,
+                              ),
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.brown), // Color when enabled
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.brown), // Color when focused
+                              ),
+                              errorBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.black), // Color when error
+                              ),
+                            ),
+                          ),
+                        ),
                         // const SizedBox(height: 30),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
                             controller: _emailController,
-                            // controller: _usernamecontroller,
                             cursorColor: Colors.brown,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -185,8 +163,8 @@ class _LoginpageState extends State<Loginpage> {
                                     color: Colors.brown), // Color when focused
                               ),
                               errorBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                                // Color when error
+                                borderSide: BorderSide(
+                                    color: Colors.black), // Color when error
                               ),
                             ),
                           ),
@@ -242,38 +220,12 @@ class _LoginpageState extends State<Loginpage> {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                                padding: const EdgeInsets.only(right: 50),
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Forgottpassword(),
-                                      ),
-                                    );
-                                  },
-                                  // print('Forgot password button pressed');
 
-                                  child: const Text(
-                                    "forgot password?",
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 44, 25, 22),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                )),
-                          ],
-                        ),
                         // const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-                            // _login();
-
-                            checkLogin();
+                            // _register();
+                            signup();
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -281,7 +233,7 @@ class _LoginpageState extends State<Loginpage> {
                                   const Color.fromRGBO(78, 52, 46, 1),
                               shape: const StadiumBorder()),
                           child: const Text(
-                            'Login',
+                            'signup',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -289,33 +241,6 @@ class _LoginpageState extends State<Loginpage> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    const Text(
-                                      'Don\'t have an account?',
-                                      style: TextStyle(color: Colors.brown),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext ctx) =>
-                                                    Signup()));
-                                      },
-                                      child: Text(
-                                        "Register Now",
-                                        style: TextStyle(
-                                            color: Colors.brown[900],
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ]),
-                            ),
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -364,10 +289,7 @@ class _LoginpageState extends State<Loginpage> {
                                     width: 30,
                                   ),
                                   onPressed: () async {
-                                    // User? user = await signInWithGoogle();
-                                    // if (user != null) {}
-
-                                    // await signInWithGoogle();
+                                    await signInWithGoogle();
                                   },
                                   color: Colors.white,
                                   // child:  Center(
@@ -401,89 +323,46 @@ class _LoginpageState extends State<Loginpage> {
       ),
     );
   }
-
-  checkLogin() {
-    const String _errorMesage = 'Inavalid username or password';
-    final username = _usernamecontroller.text;
-    final password = _passwordController.text;
-    // ignore: unnecessary_null_comparison
-    if (username == password) {
-      //go to home page
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            _errorMesage,
-            style: TextStyle(color: Colors.yellow),
-          ),
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(20),
-          backgroundColor: const Color.fromARGB(255, 244, 0, 0),
-          action: SnackBarAction(
-            label: 'Close',
-            onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            },
-          ),
-          duration: const Duration(seconds: 3),
-        ),
-      );
-    }
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<TextEditingController>(
-        '_passwordController', _passwordController));
-  }
 }
 
+Future<void> signInWithGoogle({BuildContext? context}) async {
+  try {
+    // Trigger Google Sign-In flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-// Future<void> signInWithGoogle({BuildContext? context}) async {
-//   try {
-//     // Trigger Google Sign-In flow
-//     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      // User canceled the login
+      return;
+    }
 
-//     if (googleUser == null) {
-//       // User canceled the login
-//       return;
-//     }
+    // Obtain the auth details from the Google Sign-In
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
-//     // Obtain the auth details from the Google Sign-In
-//     final GoogleSignInAuthentication googleAuth =
-//         await googleUser.authentication;
+    // Create a credential for Firebase Authentication
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-//     // Create a credential for Firebase Authentication
-//     final credential = GoogleAuthProvider.credential(
-//       accessToken: googleAuth.accessToken,
-//       idToken: googleAuth.idToken,
-//     );
+    // Sign in to Firebase with the credential
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
-//     // Sign in to Firebase with the credential
-//     final UserCredential userCredential =
-//         await FirebaseAuth.instance.signInWithCredential(credential);
+    // Get the signed-in user
+    final User? user = userCredential.user;
 
-//     // Get the signed-in user
-//     final User? user = userCredential.user;
-
-//     // Navigate to HomePage or handle as needed
-//     if (user != null) {
-//       Navigator.push(
-//         context!,
-//         MaterialPageRoute(builder: (context) => const HomePage()),
-//       );
-//     }
-//   } catch (e) {
-//     print("Error during Google Sign-In: $e");
-//     ScaffoldMessenger.of(context!).showSnackBar(
-//       const SnackBar(content: Text("Google Sign-In failed")),
-//     );
-//   }
-// }
+    // Navigate to HomePage or handle as needed
+    if (user != null) {
+      Navigator.push(
+        context!,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    }
+  } catch (e) {
+    print("Error during Google Sign-In: $e");
+    ScaffoldMessenger.of(context!).showSnackBar(
+      const SnackBar(content: Text("Google Sign-In failed")),
+    );
+  }
+}
