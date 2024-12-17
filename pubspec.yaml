@@ -30,6 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
+  url_launcher: ^6.3.1  
+  share_plus: ^10.1.2
+  google_fonts: ^6.2.1
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -82,6 +87,15 @@ flutter:
       - assets/fb logo.webp
       - assets/logo g.webp
       - assets/makeup.jpg
+      - assets/mkeup.png
+      - assets/mkpimg2.png
+      - assets/image.png
+      - assets/imagecopy.png
+      - assets/facial123.png
+      - assets/makeup123.png
+      - assets/hair123.png
+      
+      
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
