@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:makemeover/aboutus.dart';
+import 'package:makemeover/view/aboutus.dart';
 // import 'package:makemeover/artistCard.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';

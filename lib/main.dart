@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:makemeover/aboutus.dart';
-import 'package:makemeover/firebase_options.dart';
+import 'package:makemeover/view/aboutus.dart';
+import 'package:makemeover/model/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:makemeover/view/overview.dart';
