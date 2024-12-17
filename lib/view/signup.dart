@@ -23,21 +23,27 @@ class _LoginpageState extends State<Signup> {
   // text editing controler for pass email and password throgh signup function
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   // signup function throgh creat user with email and password
-  Future<void>signup()async{
+  Future<void> signup() async {
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     try {
-      Authentication().createuser(_emailController.text.trim(), _passwordController.text.trim());
+      Authentication().createuser(
+          _emailController.text.trim(), _passwordController.text.trim());
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const HomePage(),
+        ),
+      );
       print('success');
-    }on FirebaseAuthException catch (e) {
-      errormessage=e.message;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('$errormessage')));
-            print(errormessage);
+    } on FirebaseAuthException catch (e) {
+      errormessage = e.message;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('$errormessage')));
+      print(errormessage);
     }
   }
-
 
   bool _obsecureText = true;
   @override
