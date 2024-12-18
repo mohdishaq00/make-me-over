@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:makemeover/profile.dart';
+import 'package:makemeover/view/profile.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
