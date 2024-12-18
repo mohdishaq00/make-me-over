@@ -4,6 +4,7 @@ import 'package:makemeover/view/ServiceFile.dart';
 import 'package:makemeover/view/artistCard.dart';
 
 import 'package:makemeover/view/serviceCard.dart';
+import 'package:makemeover/view/whisList.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -142,8 +143,19 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => const Loginpage()),
                     );
                   },
-                  icon: Icon(Icons.account_circle_rounded),
+                  icon: const Icon(Icons.account_circle_rounded),
                   iconSize: 35,
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Whislist(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.bookmark_added),
                 )
               ],
             ),
