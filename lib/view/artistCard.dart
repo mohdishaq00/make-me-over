@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:makemeover/profile.dart';
 
@@ -20,12 +19,14 @@ class Artistcard extends StatefulWidget {
 
 class _ArtistcardState extends State<Artistcard> {
   bool isAddIcon = true;
+  List<String> wishlist = []; // Wishlist to store product names
+  String product = "Artist 1"; // Example product name
 
   @override
   Widget build(
     BuildContext context,
   ) {
-    return Padding( 
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
         onTap: () {
@@ -73,6 +74,13 @@ class _ArtistcardState extends State<Artistcard> {
                           onPressed: () {
                             setState(() {
                               isAddIcon = !isAddIcon;
+                              if (!isAddIcon) {
+                                wishlist.add(product);
+                              } else {
+                                wishlist.remove(product);
+                              }
+                              print(
+                                  "Wishlist: $wishlist"); // For debugging purposes
                             });
                           },
                           shape: const CircleBorder(),
