@@ -6,6 +6,7 @@ import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/view/signup.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
+import 'package:makemeover/viewmodel/googleauthentication.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -35,7 +36,6 @@ class _LoginpageState extends State<Loginpage> {
         ),
       );
     } on FirebaseAuthException catch (e) {
-      errormessage = e.message!;
       errormessage = e.message!;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errormessage)));
@@ -314,11 +314,8 @@ class _LoginpageState extends State<Loginpage> {
                                     height: 27,
                                     width: 30,
                                   ),
-                                  onPressed: () async {
-                                    // User? user = await signInWithGoogle();
-                                    // if (user != null) {}
-
-                                    // await signInWithGoogle();
+                                  onPressed: ()  {
+                                    Googleauthentication().signInWithGoogle();
                                   },
                                   color: Colors.white,
                                   // child:  Center(
