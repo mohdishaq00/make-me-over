@@ -15,9 +15,12 @@ class _WhislistState extends State<Whislist> {
       appBar: AppBar(
         title: Row(
           children: [
-            Text('whislist'),
+            const Text('whislist'),
             divider(boxWidth: 10),
-            Icon(Icons.bookmark_added),
+            const Icon(
+              Icons.bookmark_added,
+            ),
+            
           ],
         ),
       ),

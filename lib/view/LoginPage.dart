@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/view/signup.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
 
@@ -17,7 +18,7 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   // recieving exception massage on snackbar
   String errormessage = '';
-
+  final firestore = FirebaseFirestore.instance;
   // textediting controller for pass data textfield throgh signing function
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -50,21 +51,22 @@ class _LoginpageState extends State<Loginpage> {
         children: [
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Column(children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.brown,
-                child: Image.asset(
-                  "assets/makeup.jpg",
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.high,
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.brown,
+                  child: Image.asset(
+                    "assets/makeup.jpg",
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.high,
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * .8,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                Container(
+                  height: MediaQuery.of(context).size.height * .8,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [
                         Color.fromARGB(222, 109, 60, 42),
@@ -80,9 +82,11 @@ class _LoginpageState extends State<Loginpage> {
                         blurRadius: 7,
                         offset: const Offset(0, 3),
                       )
-                    ]),
-              ),
-            ]),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           Center(
             child: Column(
@@ -223,8 +227,17 @@ class _LoginpageState extends State<Loginpage> {
                         ),
                         // const SizedBox(height: 20),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             signing();
+                            if (_emailController.text.isNotEmpty &&
+                                _passwordController.text.isNotEmpty) {
+                              firestore.collection('User Details').add(
+                                {
+                                  "Email": _emailController.text,
+                                  "Password": _passwordController.text,
+                                },
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -253,10 +266,12 @@ class _LoginpageState extends State<Loginpage> {
                                     TextButton(
                                       onPressed: () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext ctx) =>
-                                                    Signup()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext ctx) =>
+                                                const Signup(),
+                                          ),
+                                        );
                                       },
                                       child: Text(
                                         "Register Now",

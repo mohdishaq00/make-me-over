@@ -156,6 +156,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   icon: const Icon(Icons.bookmark_added),
+                  iconSize: 30,
                 )
               ],
             ),
