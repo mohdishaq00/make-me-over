@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/Verification.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Forgottpassword extends StatefulWidget {
   const Forgottpassword({super.key});
@@ -9,6 +10,19 @@ class Forgottpassword extends StatefulWidget {
 }
 
 class _ForgottpasswordState extends State<Forgottpassword> {
+  final _emailController = TextEditingController();
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print('reset link send');
+      // Handle success, e.g., show a success message
+    } on FirebaseAuthException catch (e) {
+      print('RESET ERROR $e');
+      // Handle errors, e.g., show error messages
+      print(e.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +49,8 @@ class _ForgottpasswordState extends State<Forgottpassword> {
           ),
           Container(
             padding: const EdgeInsets.all(30.0),
-            child: const TextField(
+            child: TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -44,11 +59,27 @@ class _ForgottpasswordState extends State<Forgottpassword> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const VerificationPage()),
-              );
+              resetPassword(_emailController.text.trim()).then((value) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Password reset email sent.'),
+                  ),
+                );
+                Navigator.pop(context);
+              }).catchError((error) {
+                // Handle errors, e.g., show error messages
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error: $error'),
+                  ),
+                );
+              });
+
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) => const VerificationPage()),
+              // );
             },
             child: const Text(
               'Continue',

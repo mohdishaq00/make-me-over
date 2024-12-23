@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
+import 'package:makemeover/viewmodel/googleauthentication.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -23,21 +24,27 @@ class _LoginpageState extends State<Signup> {
   // text editing controler for pass email and password throgh signup function
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   // signup function throgh creat user with email and password
-  Future<void>signup()async{
+  Future<void> signup() async {
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     try {
-      Authentication().createuser(_emailController.text.trim(), _passwordController.text.trim());
+      Authentication().createuser(
+          _emailController.text.trim(), _passwordController.text.trim());
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const HomePage(),
+        ),
+      );
       print('success');
-    }on FirebaseAuthException catch (e) {
-      errormessage=e.message;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('$errormessage')));
-            print(errormessage);
+    } on FirebaseAuthException catch (e) {
+      errormessage = e.message;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('$errormessage')));
+      print(errormessage);
     }
   }
-
 
   bool _obsecureText = true;
   @override
@@ -280,7 +287,7 @@ class _LoginpageState extends State<Signup> {
 
                             // const SizedBox(height: 20),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 IconButton(
                                   icon: Image.asset(
@@ -288,26 +295,14 @@ class _LoginpageState extends State<Signup> {
                                     height: 27,
                                     width: 30,
                                   ),
-                                  onPressed: () async {
-                                    await signInWithGoogle();
+                                  onPressed: (){
+                                    Googleauthentication().signInWithGoogle();
                                   },
                                   color: Colors.white,
                                   // child:  Center(
                                   //   child: Image.asset(''),
                                   // ),
                                 ),
-                                IconButton(
-                                  icon: Image.asset(
-                                    'assets/fb logo.webp',
-                                    height: 27,
-                                    width: 30,
-                                  ),
-                                  color: Colors.white,
-                                  onPressed: () {},
-                                  // child:  Center(
-                                  //   child: Image.asset('assets/fb logo.webp'),
-                                  // ),
-                                )
                               ],
                             ),
                           ],
@@ -325,44 +320,3 @@ class _LoginpageState extends State<Signup> {
   }
 }
 
-Future<void> signInWithGoogle({BuildContext? context}) async {
-  try {
-    // Trigger Google Sign-In flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    if (googleUser == null) {
-      // User canceled the login
-      return;
-    }
-
-    // Obtain the auth details from the Google Sign-In
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    // Create a credential for Firebase Authentication
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Sign in to Firebase with the credential
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    // Get the signed-in user
-    final User? user = userCredential.user;
-
-    // Navigate to HomePage or handle as needed
-    if (user != null) {
-      Navigator.push(
-        context!,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    }
-  } catch (e) {
-    print("Error during Google Sign-In: $e");
-    ScaffoldMessenger.of(context!).showSnackBar(
-      const SnackBar(content: Text("Google Sign-In failed")),
-    );
-  }
-}
