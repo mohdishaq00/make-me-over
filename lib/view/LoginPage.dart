@@ -7,6 +7,7 @@ import 'package:makemeover/view/home.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/view/signup.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
+import 'package:makemeover/viewmodel/googleauthentication.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -18,7 +19,7 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   // recieving exception massage on snackbar
   String errormessage = '';
-  final firestore = FirebaseFirestore.instance;
+
   // textediting controller for pass data textfield throgh signing function
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -36,7 +37,6 @@ class _LoginpageState extends State<Loginpage> {
         ),
       );
     } on FirebaseAuthException catch (e) {
-      errormessage = e.message!;
       errormessage = e.message!;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errormessage)));
@@ -229,15 +229,6 @@ class _LoginpageState extends State<Loginpage> {
                         ElevatedButton(
                           onPressed: () async {
                             signing();
-                            if (_emailController.text.isNotEmpty &&
-                                _passwordController.text.isNotEmpty) {
-                              firestore.collection('User Details').add(
-                                {
-                                  "Email": _emailController.text,
-                                  "Password": _passwordController.text,
-                                },
-                              );
-                            }
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),
@@ -329,29 +320,26 @@ class _LoginpageState extends State<Loginpage> {
                                     height: 27,
                                     width: 30,
                                   ),
-                                  onPressed: () async {
-                                    // User? user = await signInWithGoogle();
-                                    // if (user != null) {}
-
-                                    // await signInWithGoogle();
+                                  onPressed: () {
+                                    Googleauthentication().signInWithGoogle();
                                   },
                                   color: Colors.white,
                                   // child:  Center(
                                   //   child: Image.asset(''),
                                   // ),
                                 ),
-                                IconButton(
-                                  icon: Image.asset(
-                                    'assets/fb logo.webp',
-                                    height: 27,
-                                    width: 30,
-                                  ),
-                                  color: Colors.white,
-                                  onPressed: () {},
-                                  // child:  Center(
-                                  //   child: Image.asset('assets/fb logo.webp'),
-                                  // ),
-                                )
+                                // IconButton(
+                                //   icon: Image.asset(
+                                //     'assets/fb logo.webp',
+                                //     height: 27,
+                                //     width: 30,
+                                //   ),
+                                //   color: Colors.white,
+                                //   onPressed: (){}
+                                //   // child:  Center(
+                                //   //   child: Image.asset('assets/fb logo.webp'),
+                                //   // ),
+                                // )
                               ],
                             ),
                           ],

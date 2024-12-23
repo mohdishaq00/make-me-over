@@ -1,8 +1,11 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
+// import 'package:makemeover/viewmodel/main.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -12,6 +15,8 @@ class Signup extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Signup> {
+  // final firestore = FirebaseFirestore.instance;
+  final db = FirebaseFirestore.instance;
   @override
   void initState() {
     print('LOGIN PAGE');
@@ -21,6 +26,7 @@ class _LoginpageState extends State<Signup> {
   String? errormessage;
 
   // text editing controler for pass email and password throgh signup function
+  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -118,6 +124,7 @@ class _LoginpageState extends State<Signup> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextField(
+                            controller: _userNameController,
                             cursorColor: Colors.brown,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
@@ -232,6 +239,13 @@ class _LoginpageState extends State<Signup> {
                           onPressed: () {
                             // _register();
                             signup();
+                            final data = {
+                              "name": _userNameController.text,
+                              "Email": _emailController.text,
+                              "Password": _passwordController.text
+                            };
+                            db.collection("cities").doc("LA").set(data).onError(
+                                (e, _) => print("Error writing document: $e"));
                           },
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(180.0, 45.0),

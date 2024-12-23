@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class Overview extends StatefulWidget {
   const Overview({super.key});
@@ -14,7 +14,7 @@ class _OverviewState extends State<Overview> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: GoogleFonts.oswaldTextTheme(),
+        // textTheme: GoogleFonts.oswaldTextTheme(),
       ),
       home: Scaffold(
         backgroundColor: Colors.white,

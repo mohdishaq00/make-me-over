@@ -5,6 +5,7 @@ import 'package:makemeover/view/artistCard.dart';
 
 import 'package:makemeover/view/serviceCard.dart';
 import 'package:makemeover/view/whisList.dart';
+import 'package:makemeover/viewmodel/authentication.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,6 +49,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var uid = Authentication().CurrentUser?.uid;
+    print('yes----------22222-------------$uid');
     final List<Map<String, dynamic>> pageData = [
       {
         "title": "Facial",
