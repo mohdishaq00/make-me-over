@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:makemeover/aboutus.dart';
+import 'package:makemeover/bookingpage.dart';
+// import 'package:makemeover/aboutus.dart';
 // import 'package:makemeover/aboutus.dart';rRR
 // import 'package:makemeover/LoginPage.dart';
 // import 'package:makemeover/home.dart';
@@ -8,14 +9,15 @@ import 'package:makemeover/firebase_options.dart';
 //  import 'package:makemeover/profile.dart';
 //  import 'package:makemeover/view/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
-<<<<<<< HEAD
-// import 'package:makemeover/profile.dart';
-import 'package:makemeover/view/overview.dart';
-
-=======
-import 'package:makemeover/view/artistProfile.dart';
+import 'package:makemeover/profile.dart';
+import 'package:makemeover/view/artistCard.dart';
 import 'package:makemeover/view/home.dart';
->>>>>>> fc8d75472e54910de63946771a61253ae5d11777
+// import 'package:makemeover/view/LoginPage.dart';
+// import 'package:makemeover/profile.dart';
+// import 'package:makemeover/view/overview.dart';
+
+// import 'package:makemeover/view/artistProfile.dart';
+// import 'package:makemeover/view/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,16 +32,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-<<<<<<< HEAD
       debugShowCheckedModeBanner: false,
-      home: Overview(),
+      home: Bookingpage()
     );
-=======
-        debugShowCheckedModeBanner: false,
-        home: HomePage(),
-        routes: {
-          // '/Stephy': (context) => const MyWidget(name),
-        });
->>>>>>> fc8d75472e54910de63946771a61253ae5d11777
   }
 }
