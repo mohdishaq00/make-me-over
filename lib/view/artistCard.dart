@@ -6,12 +6,18 @@ class Artistcard extends StatefulWidget {
   final String title;
   final String subtitle;
   final String price;
+  final VoidCallback? onAddToWishlist;
+  final Map<String, String>? product; // Product data
+  final bool? isInWishlist;
   const Artistcard({
     super.key,
     required this.img,
     required this.title,
     required this.subtitle,
     required this.price,
+    this.onAddToWishlist,
+    this.product,
+    this.isInWishlist,
   });
   @override
   State<Artistcard> createState() => _ArtistcardState();
@@ -75,7 +81,13 @@ class _ArtistcardState extends State<Artistcard> {
                             setState(() {
                               isAddIcon = !isAddIcon;
                               if (!isAddIcon) {
-                                wishlist.add(product);
+                                wishlist.add(const Artistcard(
+                                        img: 'assets/beauty_1.jpg',
+                                        title: 'Anna Teresa',
+                                        subtitle: 'Beauty Artist',
+                                        price: '27\$')
+                                    .toString());
+                                print('added');
                               } else {
                                 wishlist.remove(product);
                               }

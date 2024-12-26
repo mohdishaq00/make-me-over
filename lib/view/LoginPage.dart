@@ -5,11 +5,8 @@ import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/view/signup.dart';
-<<<<<<< HEAD
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-=======
 import 'package:makemeover/viewmodel/authentication.dart';
->>>>>>> e475fd50ad1ee9df97fec337e5b1e668c1612e96
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -19,7 +16,6 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-<<<<<<< HEAD
   
   @override
   void initState() {
@@ -32,13 +28,10 @@ class _LoginpageState extends State<Loginpage> {
   final TextEditingController _passwordController = TextEditingController();
   // final _passwordController = TextEditingController();
   final _usernamecontroller = TextEditingController();
-=======
   // recieving exception massage on snackbar
   String errormessage = '';
 
   // textediting controller for pass data textfield throgh signing function
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
   // signing function this function will be work pressed on login fuction
   // provide exception message on snackbar
@@ -59,7 +52,6 @@ class _LoginpageState extends State<Loginpage> {
           .showSnackBar(SnackBar(content: Text(errormessage)));
     }
   }
->>>>>>> e475fd50ad1ee9df97fec337e5b1e668c1612e96
 
   bool _obsecureText = true;
   @override
