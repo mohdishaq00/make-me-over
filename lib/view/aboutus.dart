@@ -71,9 +71,9 @@ class _AboutUsState extends State<AboutUs> {
                     ],
                   ),
                   const Positioned(
-                    top: -45,
+                    top: -15,
                     //  right: 330,
-                    left: 510,
+                    left: 770,
                     child: Text(
                       'ABOUT US',
                       style: TextStyle(

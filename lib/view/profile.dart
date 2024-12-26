@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, deprecated_member_use
 
 import 'package:flutter/material.dart';
+// import 'package:makemeover/aboutus.dart';
+import 'package:makemeover/bookingpage.dart';
 import 'package:makemeover/view/aboutus.dart';
 // import 'package:makemeover/artistCard.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -370,7 +372,6 @@ class _MyWidgetState extends State<profilepage> {
                     const SizedBox(
                       width: 30,
                     ),
-
                     ElevatedButton(
                       onPressed: () {
                         Share.share('Check out this cool app!');
@@ -403,40 +404,6 @@ class _MyWidgetState extends State<profilepage> {
                         ],
                       ),
                     ),
-
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     // print("Button Pressed");
-                    //   },
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor:
-                    //         Colors.deepOrange[50], // Background color
-                    //     minimumSize: const Size(100, 100), // Width and Height
-                    //     shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(
-                    //           10), // Optional: rounded corners
-                    //     ),
-                    //     elevation: 4, // Shadow effect
-                    //   ),
-                    //   child: const Column(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: [
-                    //       Icon(
-                    //         Icons.share,
-                    //         size: 30,
-                    //         color: Color.fromRGBO(78, 52, 46, 1),
-                    //       ),
-                    //       Text(
-                    //         "Share",
-                    //         style: TextStyle(
-                    //             color: Color.fromRGBO(78, 52, 46, 1),
-                    //             fontSize: 19,
-                    //             fontWeight: FontWeight.bold),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
 
@@ -449,13 +416,16 @@ class _MyWidgetState extends State<profilepage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutUs()),
-            );
-          },
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AboutUs()),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor:
+                                const Color.fromRGBO(78, 52, 46, 1),
                             minimumSize: const Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -476,7 +446,8 @@ class _MyWidgetState extends State<profilepage> {
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor:
+                                const Color.fromRGBO(78, 52, 46, 1),
                             minimumSize: const Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -497,7 +468,8 @@ class _MyWidgetState extends State<profilepage> {
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor:
+                                const Color.fromRGBO(78, 52, 46, 1),
                             minimumSize: const Size(200, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -516,6 +488,39 @@ class _MyWidgetState extends State<profilepage> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 45,
+                  width: 600,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Bookingpage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(78, 52, 46, 1),
+                      minimumSize: const Size(200, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      elevation: 3,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Book now",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                )
               ],
             ),
           ),
@@ -544,4 +549,3 @@ Widget pictureCard({
     ),
   );
 }
-

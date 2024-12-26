@@ -5,8 +5,13 @@ import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/view/signup.dart';
+<<<<<<< HEAD
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
+=======
+import 'package:makemeover/viewmodel/authentication.dart';
+import 'package:makemeover/viewmodel/googleauthentication.dart';
+>>>>>>> d4687cc3c346f06fbc7c5cc87bbb6af4caf7f789
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -16,6 +21,7 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+<<<<<<< HEAD
   
   @override
   void initState() {
@@ -28,6 +34,8 @@ class _LoginpageState extends State<Loginpage> {
   final TextEditingController _passwordController = TextEditingController();
   // final _passwordController = TextEditingController();
   final _usernamecontroller = TextEditingController();
+=======
+>>>>>>> d4687cc3c346f06fbc7c5cc87bbb6af4caf7f789
   // recieving exception massage on snackbar
   String errormessage = '';
 
@@ -46,7 +54,6 @@ class _LoginpageState extends State<Loginpage> {
         ),
       );
     } on FirebaseAuthException catch (e) {
-      errormessage = e.message!;
       errormessage = e.message!;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(errormessage)));
@@ -325,11 +332,8 @@ class _LoginpageState extends State<Loginpage> {
                                     height: 27,
                                     width: 30,
                                   ),
-                                  onPressed: () async {
-                                    // User? user = await signInWithGoogle();
-                                    // if (user != null) {}
-
-                                    // await signInWithGoogle();
+                                  onPressed: ()  {
+                                    Googleauthentication().signInWithGoogle();
                                   },
                                   color: Colors.white,
                                   // child:  Center(
