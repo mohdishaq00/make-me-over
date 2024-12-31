@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+
+  font_awesome_flutter: ^10.8.0  
   url_launcher: ^6.3.1  
   share_plus: ^10.1.2
   google_fonts: ^6.2.1
@@ -96,6 +97,7 @@ flutter:
       - assets/facial123.png
       - assets/makeup123.png
       - assets/hair123.png
+      - assets/googlepay.png
       
       
 

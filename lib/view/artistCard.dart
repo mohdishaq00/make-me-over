@@ -1,3 +1,5 @@
+// import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/profile.dart';
 
@@ -20,7 +22,15 @@ class Artistcard extends StatefulWidget {
 class _ArtistcardState extends State<Artistcard> {
   bool isAddIcon = true;
   List<String> wishlist = []; // Wishlist to store product names
-  String product = "Artist 1"; // Example product name
+  String product = "Artist name"; // Example product name
+
+  showSnackbar(BuildContext context, String message) {
+    final snackbar = SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 3), // Display duration
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
 
   @override
   Widget build(
@@ -31,14 +41,11 @@ class _ArtistcardState extends State<Artistcard> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const profilepage(),
-              ));
-
-          // print("Card tapped!");
-          // Perform any action for Card
-          _showPopup(context); // Perform any action for Card
+            context,
+            MaterialPageRoute(
+              builder: (context) => const profilepage(),
+            ),
+          );
         },
         child: Card(
           clipBehavior: Clip.antiAlias,
@@ -76,8 +83,12 @@ class _ArtistcardState extends State<Artistcard> {
                               isAddIcon = !isAddIcon;
                               if (!isAddIcon) {
                                 wishlist.add(product);
+                                showSnackbar(
+                                    context, "This item is added to wishlist");
                               } else {
                                 wishlist.remove(product);
+                                showSnackbar(context,
+                                    'This item is removed from wishlist');
                               }
                               print(
                                   "Wishlist: $wishlist"); // For debugging purposes
@@ -149,29 +160,4 @@ class _ArtistcardState extends State<Artistcard> {
       ),
     );
   }
-}
-
-void _showPopup(dynamic context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        // title: const Text('Wait Bro..'),
-        content: const Padding(
-          padding: EdgeInsets.only(left: 52, top: 35),
-          child: Text(
-            'Coming Soon..!',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the popup
-            },
-            child: const Text('Done'),
-          ),
-        ],
-      );
-    },
-  );
 }
