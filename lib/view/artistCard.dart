@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/profile.dart';
+import 'package:provider/provider.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
@@ -18,10 +19,9 @@ class Artistcard extends StatefulWidget {
 }
 
 class _ArtistcardState extends State<Artistcard> {
-  bool isAddIcon = true;
-  List<String> wishlist = []; // Wishlist to store product names
-  String product = "Artist 1"; // Example product name
-
+  Added add = Added();
+  bool isAddicon = false;
+  // var iconState = isAddicon;
   @override
   Widget build(
     BuildContext context,
@@ -31,14 +31,11 @@ class _ArtistcardState extends State<Artistcard> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const profilepage(),
-              ));
-
-          // print("Card tapped!");
-          // Perform any action for Card
-          _showPopup(context); // Perform any action for Card
+            context,
+            MaterialPageRoute(
+              builder: (context) => const profilepage(),
+            ),
+          );
         },
         child: Card(
           clipBehavior: Clip.antiAlias,
@@ -71,22 +68,13 @@ class _ArtistcardState extends State<Artistcard> {
                         height: 30,
                         width: 30,
                         child: FloatingActionButton.small(
-                          onPressed: () {
-                            setState(() {
-                              isAddIcon = !isAddIcon;
-                              if (!isAddIcon) {
-                                wishlist.add(product);
-                              } else {
-                                wishlist.remove(product);
-                              }
-                              print(
-                                  "Wishlist: $wishlist"); // For debugging purposes
-                            });
-                          },
+                          onPressed: () => context.read<Added>().addProduct(),
                           shape: const CircleBorder(),
-                          child: Icon(isAddIcon
-                              ? Icons.bookmark_add_outlined
-                              : Icons.bookmark_added),
+                          child: Icon(
+                            isAddicon
+                                ? Icons.bookmark_add_outlined
+                                : Icons.bookmark_added,
+                          ),
                         ),
                       ),
                     )
@@ -151,27 +139,19 @@ class _ArtistcardState extends State<Artistcard> {
   }
 }
 
-void _showPopup(dynamic context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        // title: const Text('Wait Bro..'),
-        content: const Padding(
-          padding: EdgeInsets.only(left: 52, top: 35),
-          child: Text(
-            'Coming Soon..!',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the popup
-            },
-            child: const Text('Done'),
-          ),
-        ],
-      );
-    },
-  );
+class Added with ChangeNotifier {
+  void addProduct() {
+    List<String> wishlist = []; // Wishlist to store product names
+    var product = Artistcard(
+        img: '', title: '', subtitle: '', price: ''); // Example product name
+    bool isAddIcon = wishlist.contains(product);
+
+    if (!isAddIcon) {
+      wishlist.add(product.toString());
+    } else {
+      wishlist.remove(product);
+    }
+    print("Wishlist: $wishlist");
+    notifyListeners(); // For debugging purposes
+  }
 }

@@ -6,6 +6,7 @@ import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
 // import 'package:makemeover/viewmodel/main.dart';
+import 'package:makemeover/viewmodel/googleauthentication.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -300,7 +301,7 @@ class _LoginpageState extends State<Signup> {
 
                             // const SizedBox(height: 20),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 IconButton(
                                   icon: Image.asset(
@@ -308,26 +309,14 @@ class _LoginpageState extends State<Signup> {
                                     height: 27,
                                     width: 30,
                                   ),
-                                  onPressed: () async {
-                                    await signInWithGoogle();
+                                  onPressed: () {
+                                    Googleauthentication().signInWithGoogle();
                                   },
                                   color: Colors.white,
                                   // child:  Center(
                                   //   child: Image.asset(''),
                                   // ),
                                 ),
-                                IconButton(
-                                  icon: Image.asset(
-                                    'assets/fb logo.webp',
-                                    height: 27,
-                                    width: 30,
-                                  ),
-                                  color: Colors.white,
-                                  onPressed: () {},
-                                  // child:  Center(
-                                  //   child: Image.asset('assets/fb logo.webp'),
-                                  // ),
-                                )
                               ],
                             ),
                           ],
@@ -341,48 +330,6 @@ class _LoginpageState extends State<Signup> {
           )
         ],
       ),
-    );
-  }
-}
-
-Future<void> signInWithGoogle({BuildContext? context}) async {
-  try {
-    // Trigger Google Sign-In flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    if (googleUser == null) {
-      // User canceled the login
-      return;
-    }
-
-    // Obtain the auth details from the Google Sign-In
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    // Create a credential for Firebase Authentication
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Sign in to Firebase with the credential
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    // Get the signed-in user
-    final User? user = userCredential.user;
-
-    // Navigate to HomePage or handle as needed
-    if (user != null) {
-      Navigator.push(
-        context!,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    }
-  } catch (e) {
-    print("Error during Google Sign-In: $e");
-    ScaffoldMessenger.of(context!).showSnackBar(
-      const SnackBar(content: Text("Google Sign-In failed")),
     );
   }
 }

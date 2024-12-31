@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/LoginPage.dart';
 import 'package:makemeover/view/ServiceFile.dart';
+import 'package:makemeover/view/addShop.dart';
 import 'package:makemeover/view/artistCard.dart';
 
 import 'package:makemeover/view/serviceCard.dart';
@@ -14,6 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final CollectionReference shop =
+      FirebaseFirestore.instance.collection('shop');
+
   @override
   void initState() {
     super.initState();
@@ -107,6 +112,7 @@ class _HomePageState extends State<HomePage> {
         "image": const AssetImage("assets/hair.png"),
       },
     ];
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -117,13 +123,17 @@ class _HomePageState extends State<HomePage> {
           children: [
             Row(
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.menu,
-                    color: Color.fromARGB(255, 107, 73, 61),
-                  ),
-                  iconSize: 45,
+                Builder(
+                  builder: (context) {
+                    return IconButton(
+                      icon: const Icon(Icons.menu,
+                          color: Color.fromARGB(255, 107, 73, 61)),
+                      iconSize: 30,
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    );
+                  },
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
@@ -153,19 +163,15 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const Whislist(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const Whislist()),
                     );
                   },
                   icon: const Icon(Icons.bookmark_added),
                   iconSize: 30,
-                )
+                ),
               ],
             ),
-            divider(
-              boxHeight: 20,
-            ),
+            divider(boxHeight: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -182,13 +188,7 @@ class _HomePageState extends State<HomePage> {
                       decoration: InputDecoration(
                         icon: Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: IconButton(
-                              icon: const Icon(Icons.search), onPressed: () {}
-                              //   showSearch(
-                              //       context: context,
-
-                              // },
-                              ),
+                          child: Icon(Icons.search),
                         ),
                         labelText: 'Find your best artist..',
                         border: InputBorder.none,
@@ -196,9 +196,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                divider(
-                  boxWidth: 10,
-                ),
+                divider(boxWidth: 10),
                 ElevatedButton(
                   onPressed: () {
                     // Action
@@ -216,13 +214,64 @@ class _HomePageState extends State<HomePage> {
                     height: 45,
                     width: 20,
                   ),
-                )
+                ),
               ],
             ),
           ],
         ),
       ),
-
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 107, 73, 61),
+              ),
+              child: const Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add_business_outlined),
+              title: const Text('Add your shop'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Addshop(),
+                  ),
+                ); // Close the drawer
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.contact_page),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.contact_page),
+              title: const Text('Contact us'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+          ],
+        ),
+      ),
       //body starts here
       body: Center(
         child: SingleChildScrollView(
@@ -287,6 +336,28 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Aovel',
                     letterSpacing: 2),
+              ),
+              StreamBuilder(
+                stream: shop.snapshots(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final DocumentSnapshot shopsnap =
+                            snapshot.data.docs[index];
+                        return Artistcard(
+                          img: shopsnap['image'],
+                          title: shopsnap['name'],
+                          subtitle: shopsnap['name'],
+                          price: shopsnap['price'],
+                        );
+                      },
+                    );
+                  }
+                  // ignore: avoid_unnecessary_containers
+                  return Container();
+                },
               ),
 
               //Artist Card
