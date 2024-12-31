@@ -46,6 +46,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+ 
+
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> pageData = [
@@ -295,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                           img: 'assets/beauty_1.jpg',
                           title: 'Anna Teresa',
                           subtitle: 'Beauty Artist',
-                          price: '27\$'),
+                          price: '27\$',),
                       divider(boxWidth: 10),
                       const Artistcard(
                           img: 'assets/beauty_1.jpg',

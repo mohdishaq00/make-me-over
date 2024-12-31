@@ -5,8 +5,13 @@ import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:makemeover/view/signup.dart';
+<<<<<<< HEAD
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:makemeover/viewmodel/authentication.dart';
+=======
 import 'package:makemeover/viewmodel/authentication.dart';
 import 'package:makemeover/viewmodel/googleauthentication.dart';
+>>>>>>> d4687cc3c346f06fbc7c5cc87bbb6af4caf7f789
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -16,12 +21,25 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+<<<<<<< HEAD
+  
+  @override
+  void initState() {
+   
+    super.initState();
+  }
+
+  
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // final _passwordController = TextEditingController();
+  final _usernamecontroller = TextEditingController();
+=======
+>>>>>>> d4687cc3c346f06fbc7c5cc87bbb6af4caf7f789
   // recieving exception massage on snackbar
   String errormessage = '';
 
   // textediting controller for pass data textfield throgh signing function
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
   // signing function this function will be work pressed on login fuction
   // provide exception message on snackbar
