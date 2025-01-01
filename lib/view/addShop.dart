@@ -1,5 +1,6 @@
 // import 'dart:ffi' as ffi;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/home.dart';
 // import 'package:makemeover/bookingpage.dart';
@@ -13,6 +14,13 @@ class Addshop extends StatefulWidget {
 
 class _AddshopState extends State<Addshop> {
   final category = ['Haircut', 'Facial', 'Menicure', 'Pedicure'];
+  final CollectionReference shop =
+      FirebaseFirestore.instance.collection('shop');
+  void addShop() {
+    final data = {'name': 'Retro', 'phone': '123456789', 'category': 'haircut'};
+    shop.add(data);
+  }
+
   String? selectedCategory;
 
   @override
@@ -128,7 +136,9 @@ class _AddshopState extends State<Addshop> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                addShop();
+              },
               style: ElevatedButton.styleFrom(
                 maximumSize: Size(200, 200),
                 padding:
