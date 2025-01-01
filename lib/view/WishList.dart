@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makemeover/Wishlist_Providers.dart';
-import 'package:makemeover/providers.dart';
-import 'package:makemeover/view/wishlist.dart';
+// import 'package:makemeover/providers.dart';
+// import 'package:makemeover/view/wishlist.dart';
 import 'package:provider/provider.dart';
 
 class WishlistPage extends StatelessWidget {
@@ -20,7 +20,7 @@ class WishlistPage extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = wishlistProvider.Wishlist[index];
           return ListTile(
-            title: Text(item as String),
+            title: Text(item ['title']as String),
             trailing: IconButton(
               icon: const Icon(Icons.remove_circle),
               onPressed: () {

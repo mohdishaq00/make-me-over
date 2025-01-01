@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:makemeover/providers.dart';
+// import 'package:makemeover/providers.dart';
 // import 'package:makemeover/providers/WishlistProvider.dart'; // Corrected import path
 import 'package:makemeover/view/profile.dart';
 import 'package:provider/provider.dart';
+import 'package:makemeover/wishlist_Providers.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
+
   final String title;
   final String subtitle;
   final String price;
@@ -27,15 +29,18 @@ class Artistcard extends StatefulWidget {
 }
 
 class _ArtistcardState extends State<Artistcard> {
-  bool isAddIcon = true;
-  List<String> wishlist = [];   String product = "Artist name"; // Example product name
-  
+  List<String> wishlist = [];
+  String product = "Artist name";
 
   @override
   Widget build(
     BuildContext context,
   ) {
+    // final wishlistProvider = Provider.of<WishlistProvider>(context);
     final wishlistProvider = Provider.of<WishlistProvider>(context);
+    if (widget.product != null) {
+      wishlistProvider.isInWishlist(widget.product!);
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
@@ -77,22 +82,29 @@ class _ArtistcardState extends State<Artistcard> {
                       child: SizedBox(
                         height: 30,
                         width: 30,
-                        child: FloatingActionButton.small(
-                          onPressed: () {
-                            if (wishlistProvider.isInWishlist(
-                                widget.title as Map<String, String>)) {
-                              wishlistProvider.removeItem(widget.title);
-                            } else {
-                              wishlist.add(widget.title);
-                            }
-                          },
-                          shape: const CircleBorder(),
-                          child: Icon(
-                            wishlistProvider.isInWishlist({'title': widget.title})
-                                ? Icons.bookmark_added
-                                : Icons.bookmark_add_outlined,
-                          ),
-                        ),
+                        child: Consumer<IconProvider>(
+                            builder: (context, IconProvider, child) {
+                          final id = widget.title; // Define the id variable
+
+                          return FloatingActionButton.small(
+                            shape: const CircleBorder(),
+                            child: Icon(
+                              IconProvider.isAddicon(id)
+                                  ? Icons.bookmark_add_outlined
+                                  : Icons.bookmark_added,
+                            ),
+                            onPressed: () {
+                              IconProvider.toggleIcon(id);
+                              final snackBar = SnackBar(
+                                content: Text(IconProvider.isAddicon(id)
+                                    ? 'Item Removed'
+                                    : 'item added'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                          );
+                        }),
                       ),
                     ),
                   ],
@@ -112,9 +124,6 @@ class _ArtistcardState extends State<Artistcard> {
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
                       ),
-                      // const SizedBox(
-                      //   width: 300,
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -129,7 +138,6 @@ class _ArtistcardState extends State<Artistcard> {
                           const Text('4.2'),
                         ],
                       ),
-
                       Text(
                         widget.subtitle,
                         style: const TextStyle(
@@ -153,5 +161,17 @@ class _ArtistcardState extends State<Artistcard> {
         ),
       ),
     );
+  }
+}
+
+class IconProvider with ChangeNotifier {
+  final Map<String, bool> Addicon = {};
+  bool isAddicon(String id) {
+    return Addicon[id] ?? true;
+  }
+
+  void toggleIcon(id) {
+    Addicon[id] = !(Addicon[id] ?? false);
+    notifyListeners();
   }
 }

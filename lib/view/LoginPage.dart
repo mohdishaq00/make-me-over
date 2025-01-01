@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:makemeover/view/signup.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
 import 'package:makemeover/viewmodel/authentication.dart';
-import 'package:makemeover/viewmodel/authentication.dart';
+
 import 'package:makemeover/viewmodel/googleauthentication.dart';
 
 class Loginpage extends StatefulWidget {
@@ -18,14 +18,11 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-  
   @override
   void initState() {
-   
     super.initState();
   }
 
-  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   // final _passwordController = TextEditingController();
@@ -62,21 +59,22 @@ class _LoginpageState extends State<Loginpage> {
         children: [
           SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Column(children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.brown,
-                child: Image.asset(
-                  "assets/makeup.jpg",
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.high,
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.brown,
+                  child: Image.asset(
+                    "assets/makeup.jpg",
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.high,
+                  ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * .8,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                Container(
+                  height: MediaQuery.of(context).size.height * .8,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [
                         Color.fromARGB(222, 109, 60, 42),
@@ -92,9 +90,11 @@ class _LoginpageState extends State<Loginpage> {
                         blurRadius: 7,
                         offset: const Offset(0, 3),
                       )
-                    ]),
-              ),
-            ]),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           Center(
             child: Column(
@@ -235,7 +235,7 @@ class _LoginpageState extends State<Loginpage> {
                         ),
                         // const SizedBox(height: 20),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             signing();
                           },
                           style: ElevatedButton.styleFrom(
@@ -265,10 +265,12 @@ class _LoginpageState extends State<Loginpage> {
                                     TextButton(
                                       onPressed: () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext ctx) =>
-                                                    Signup()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext ctx) =>
+                                                const Signup(),
+                                          ),
+                                        );
                                       },
                                       child: Text(
                                         "Register Now",
@@ -326,7 +328,7 @@ class _LoginpageState extends State<Loginpage> {
                                     height: 27,
                                     width: 30,
                                   ),
-                                  onPressed: ()  {
+                                  onPressed: () {
                                     Googleauthentication().signInWithGoogle();
                                   },
                                   color: Colors.white,

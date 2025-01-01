@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Bookingpage extends StatefulWidget {
   const Bookingpage({super.key});
@@ -41,7 +41,8 @@ class _BookingpageState extends State<Bookingpage> {
   }
 
   final TextEditingController _timeController = TextEditingController();
-  Future<void> _selectTime(BuildContext context) async {
+
+  Future<void> selectTime(BuildContext context) async {
     // Show TimePicker dialog
     TimeOfDay? selectedTime = await showTimePicker(
       context: context,
@@ -180,6 +181,8 @@ class _BookingpageState extends State<Bookingpage> {
                   SizedBox(
                     width: 400,
                     child: TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 10,
                       decoration: InputDecoration(
                         labelText: 'phone',
                         // hintText: 'Enter your name',
@@ -371,7 +374,7 @@ class _BookingpageState extends State<Bookingpage> {
                       ),
                       cursorColor: Colors.black,
                       onTap: () {
-                        _selectTime(context);
+                        selectTime(context);
                       },
                     ),
                   ),
@@ -401,6 +404,24 @@ class _BookingpageState extends State<Bookingpage> {
 
               SizedBox(
                 height: 25,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Add your action here
+                  setState(
+                    () {
+                      _showPopup;
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text('Click Me'),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 770),
@@ -706,4 +727,29 @@ class _BookingpageState extends State<Bookingpage> {
       ),
     );
   }
+}
+
+void _showPopup(dynamic ctx) {
+  showDialog(
+    context: ctx,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        // title: const Text('Hi There!'),
+        content: const Padding(
+          padding: EdgeInsets.only(left: 52, top: 35),
+          child: Text(
+            'Booking completed\n We will  reach you asap',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the popup
+            },
+            child: const Text('Done'),
+          ),
+        ],
+      );
+    },
+  );
 }
