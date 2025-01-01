@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:makemeover/view/home.dart';
-import 'package:makemeover/view/addShop.dart';
 
 class Bookingpage extends StatefulWidget {
   const Bookingpage({super.key});
@@ -66,7 +64,7 @@ class _BookingpageState extends State<Bookingpage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.grey[350],
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,6 +258,7 @@ class _BookingpageState extends State<Bookingpage> {
                           left: 0,
                           right: 0,
                           bottom: 0,
+                          // ignore: sized_box_for_whitespace
                           child: Container(
                             width: double
                                 .infinity, // Make the dropdown full width of the TextField
@@ -402,8 +401,9 @@ class _BookingpageState extends State<Bookingpage> {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 30,
+
+              SizedBox(
+                height: 25,
               ),
               ElevatedButton(
                 onPressed: () {
@@ -423,6 +423,301 @@ class _BookingpageState extends State<Bookingpage> {
                 ),
                 child: Text('Click Me'),
               ),
+              Padding(
+                padding: const EdgeInsets.only(right: 770),
+                child: Text(
+                  'Payment',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 380),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(15), // Border radius
+                      ),
+                      side: BorderSide(
+                          color: Colors.black,
+                          width: 1.0), // Border color and width
+                      elevation: 2, // Elevation (you can adjust as needed)
+                    ),
+                    onPressed: () {
+                      // Show the dialog when the button is pressed
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Dialog Title'),
+                            content: Text('This is the content of the dialog.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: Text('Close'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 70,
+                      width: 120,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment
+                            .center, // Center content vertically
+                        children: [
+                          Icon(
+                            Icons.credit_card,
+                            color: Colors.blue[400],
+                            size: 30,
+                          ),
+                          SizedBox(
+                              height:
+                                  5), // Optional, adds spacing between icon and text
+                          Text(
+                            'Card',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue[400],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      backgroundColor: Colors.white, // Background color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(15), // Border radius
+                        side: BorderSide(
+                            color: Colors.black,
+                            width: 1.0), // Border color and width
+                      ),
+                      fixedSize: Size(120, 70), // Set width and height
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Dialog Title'),
+                            content: Text('This is the content of the dialog.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: Text('Close'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          width: 30,
+                          child:
+                              Image.asset('assets/googlepay.png'), // Your image
+                        ),
+                        Text(
+                          'Google Pay',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      // foregroundColor: ,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(15), // Border radius
+                      ),
+                      side: BorderSide(
+                        color: Colors.black, // Border color
+                        width: 1.0, // Border width
+                      ),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Dialog Title'),
+                            content: Text('This is the content of the dialog.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: Text('Close'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      height: 70,
+                      width: 120,
+                      child: Column(
+                        mainAxisAlignment:
+                            MainAxisAlignment.center, // Center the content
+                        children: [
+                          Icon(
+                            Icons.account_balance_outlined,
+                            size: 30,
+                            color: Colors.black, // Icon color
+                          ),
+                          SizedBox(height: 5), // Space between icon and text
+                          Text(
+                            'Bank transfer',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black, // Text color
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              // Padding(
+              //   padding: EdgeInsets.only(right: 440),
+              //   child: Container(
+              //     width: 200,
+              //     height: 50,
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(10),
+              //       color: Colors.white,
+              //       border: Border.all(
+              //         color: Colors.black,
+              //         width: 0.5,
+              //       ),
+              //     ),
+              //     child: ElevatedButton(
+              //       onPressed: () {
+              //         showDialog(
+              //           context: context,
+              //           builder: (BuildContext context) {
+              //             return AlertDialog(
+              //               title: Text('Action Dialog'),
+              //               content: SizedBox(
+              //                 width: MediaQuery.of(context).size.width *
+              //                     0.8, // 80% of screen width
+              //                 height: 200, // Fixed height
+              //                 child: SingleChildScrollView(
+              //                   child: Text(
+              //                     'This is an example of a larger dialog. You can include more content here, such as text, images, or other widgets.',
+              //                   ),
+              //                 ),
+              //               ),
+              //               actions: [
+              //                 TextButton(
+              //                   onPressed: () {
+              //                     Navigator.of(context)
+              //                         .pop(); // Close the dialog
+              //                   },
+              //                   child: Text('Close'),
+              //                 ),
+              //               ],
+              //             );
+              //           },
+              //         );
+              //       },
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: Colors.white, // Background color
+              //         foregroundColor: Colors.black, // Text color
+              //         elevation: 0, // Removes shadow
+              //         side: BorderSide(
+              //           color: Colors.black, // Border color
+              //           width: 1.0, // Border width
+              //         ),
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius:
+              //               BorderRadius.circular(10), // Rounded corners
+              //         ),
+              //       ),
+              //       child: Text('Net Banking'),
+              //     ),
+              //   ),
+              // ),
+
+              SizedBox(
+                height: 40,
+              ),
+
+              ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Your booking is confirmed!',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(400, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  backgroundColor: Colors.brown,
+                ),
+                child: Text(
+                  'Booking confirmed',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+
               const SizedBox(
                 height: 50,
               ),

@@ -1,12 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/forgott.dart';
 import 'package:makemeover/view/home.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:makemeover/view/signup.dart';
+
 import 'package:makemeover/viewmodel/authentication.dart';
+
 import 'package:makemeover/viewmodel/googleauthentication.dart';
 
 class Loginpage extends StatefulWidget {
@@ -17,12 +18,19 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // final _passwordController = TextEditingController();
+  final _usernamecontroller = TextEditingController();
   // recieving exception massage on snackbar
   String errormessage = '';
 
   // textediting controller for pass data textfield throgh signing function
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
   // signing function this function will be work pressed on login fuction
   // provide exception message on snackbar

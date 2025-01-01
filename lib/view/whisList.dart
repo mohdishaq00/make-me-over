@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/home.dart';
 
-class Whislist extends StatefulWidget {
-  const Whislist({super.key});
 
-  @override
-  State<Whislist> createState() => _WhislistState();
-}
+class Whislist extends StatelessWidget { 
+  const Whislist({
+    super.key, 
+  });
 
-class _WhislistState extends State<Whislist> {
+  // final List<dynamic> wishlist;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +24,7 @@ class _WhislistState extends State<Whislist> {
         ),
       ),
       backgroundColor: Colors.white,
+     
     );
   }
 }

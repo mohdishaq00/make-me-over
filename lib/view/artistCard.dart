@@ -1,27 +1,36 @@
+// import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:makemeover/view/profile.dart';
 import 'package:provider/provider.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
+
   final String title;
   final String subtitle;
   final String price;
+  final VoidCallback? onAddToWishlist;
+  final Map<String, String>? product; // Product data
+  final bool? isInWishlist;
   const Artistcard({
     super.key,
     required this.img,
     required this.title,
     required this.subtitle,
     required this.price,
+    this.onAddToWishlist,
+    this.product,
+    this.isInWishlist,
   });
   @override
   State<Artistcard> createState() => _ArtistcardState();
 }
 
 class _ArtistcardState extends State<Artistcard> {
-  Added add = Added();
-  bool isAddicon = false;
-  // var iconState = isAddicon;
+  List<String> wishlist = [];
+  String product = "Artist name";
+
   @override
   Widget build(
     BuildContext context,
@@ -67,15 +76,60 @@ class _ArtistcardState extends State<Artistcard> {
                       child: SizedBox(
                         height: 30,
                         width: 30,
-                        child: FloatingActionButton.small(
-                          onPressed: () => context.read<Added>().addProduct(),
-                          shape: const CircleBorder(),
-                          child: Icon(
-                            isAddicon
-                                ? Icons.bookmark_add_outlined
-                                : Icons.bookmark_added,
-                          ),
-                        ),
+                        child: Consumer<IconProvider>(
+                            builder: (context, IconProvider, child) {
+                          final id = widget.title; // Define the id variable
+
+                          return FloatingActionButton.small(
+                            shape: const CircleBorder(),
+                            child: Icon(
+                              IconProvider.isAddicon(id)
+                                  ? Icons.bookmark_add_outlined
+                                  : Icons.bookmark_added,
+                            ),
+                            onPressed: () {
+                              IconProvider.toggleIcon(id);
+                              final snackBar = SnackBar(
+                                content: Text(IconProvider.isAddicon(id)
+                                    ? 'Item Removed'
+                                    : 'item added'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              // context.read<Added>().addProduct();
+                              // context.read<Added>().iconState();
+                              // setState(
+                              //   () {
+                              //     isAddicon = !isAddicon;
+                              //     if (!isAddicon) {
+                              //       wishlist.add(product);
+                              //       showSnackbar(context,
+                              //           "This item is added to wishlist");
+                              //       wishlist.add(const Artistcard(
+                              //               img: 'assets/beauty_1.jpg',
+                              //               title: 'Anna Teresa',
+                              //               subtitle: 'Beauty Artist',
+                              //               price: '27\$')
+                              //           .toString());
+                              //       print('added');
+                              //     } else {
+                              //       wishlist.remove(product);
+                              //       showSnackbar(context,
+                              //           'This item is removed from wishlist');
+                              //     }
+                              //     print(
+                              //         "Wishlist: $wishlist"); // For debugging purposes
+                              //   },
+                              // );
+                            },
+                            // shape: const CircleBorder(),
+                            // child: Icon(
+                            //   isAddicon
+                            //       ? Icons.bookmark_add_outlined
+                            //       : Icons.bookmark_added,
+                            // ),
+                          );
+                        }),
                       ),
                     )
                   ],
@@ -95,9 +149,6 @@ class _ArtistcardState extends State<Artistcard> {
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
                       ),
-                      // const SizedBox(
-                      //   width: 300,
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -112,7 +163,6 @@ class _ArtistcardState extends State<Artistcard> {
                           const Text('4.2'),
                         ],
                       ),
-
                       Text(
                         widget.subtitle,
                         style: const TextStyle(
@@ -139,19 +189,77 @@ class _ArtistcardState extends State<Artistcard> {
   }
 }
 
-class Added with ChangeNotifier {
-  void addProduct() {
-    List<String> wishlist = []; // Wishlist to store product names
-    var product = Artistcard(
-        img: '', title: '', subtitle: '', price: ''); // Example product name
-    bool isAddIcon = wishlist.contains(product);
+// class Added with ChangeNotifier {
+//   var product;
+//   List<String> wishlist = [];
+//   void addProduct() {
+//     // Wishlist to store product names
+//     product = Artistcard(
+//         img: '', title: '', subtitle: '', price: ''); // Example product name
+//     bool isAddIcon = wishlist.contains(product);
 
-    if (!isAddIcon) {
-      wishlist.add(product.toString());
-    } else {
-      wishlist.remove(product);
-    }
-    print("Wishlist: $wishlist");
-    notifyListeners(); // For debugging purposes
+//     if (!isAddIcon) {
+//       wishlist.add(product.toString());
+//     } else {
+//       wishlist.remove(product);
+//     }
+//     print("Wishlist: $wishlist");
+//     notifyListeners(); // For debugging purposes
+//   }
+
+//   bool isAddicon = true;
+
+//   void iconState({BuildContext? context}) {
+//     isAddicon = !isAddicon;
+//     if (!isAddicon) {
+//       wishlist.add(product);
+
+//       showSnackbar(context!, "This item is added to wishlist");
+//       wishlist.add(const Artistcard(
+//               img: 'assets/beauty_1.jpg',
+//               title: 'Anna Teresa',
+//               subtitle: 'Beauty Artist',
+//               price: '27\$')
+//           .toString());
+//       print('added');
+//     } else {
+//       wishlist.remove(product);
+//       showSnackbar(context!, 'This item is removed from wishlist');
+//     }
+//     print("Wishlist: $wishlist");
+//     const CircleBorder();
+//     Icon(
+//       isAddicon ? Icons.bookmark_add_outlined : Icons.bookmark_added,
+//     ); // For debugging purposes
+//   }
+
+//   showSnackbar(BuildContext context, String message) {
+//     final snackbar = SnackBar(
+//       content: Text(
+//         message,
+//         style: TextStyle(fontSize: 15, color: Colors.white),
+//       ),
+//       backgroundColor: const Color.fromARGB(255, 205, 166, 153),
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//       behavior: SnackBarBehavior.floating, // Makes it float
+//       margin: EdgeInsets.only(right: 1230, left: 30, bottom: 20),
+//     );
+
+//     const Duration(seconds: 1);
+//     ScaffoldMessenger.of(context).showSnackBar(snackbar);
+//   }
+// }
+
+class IconProvider with ChangeNotifier {
+  final Map<String, bool> Addicon = {};
+  bool isAddicon(String id) {
+    return Addicon[id] ?? true;
+  }
+
+  void toggleIcon(id) {
+    Addicon[id] = !(Addicon[id] ?? false);
+    notifyListeners();
   }
 }

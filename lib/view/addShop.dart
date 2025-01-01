@@ -12,6 +12,9 @@ class Addshop extends StatefulWidget {
 }
 
 class _AddshopState extends State<Addshop> {
+  final category = ['Haircut', 'Facial', 'Menicure', 'Pedicure'];
+  String? selectedCategory;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,6 +95,37 @@ class _AddshopState extends State<Addshop> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              width: 400,
+              height: 100,
+              child: DropdownButtonFormField(
+                decoration: InputDecoration(
+                  labelText: 'Category  z',
+                  hintText: 'Enter your name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide:
+                        const BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 1.0),
+                  ),
+                ),
+                items: category
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: (val) {
+                  {
+                    selectedCategory = val;
+                  }
+                },
+              ),
             ),
             ElevatedButton(
               onPressed: () {},

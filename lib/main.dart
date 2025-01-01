@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makemeover/model/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:makemeover/view/addShop.dart';
+
 import 'package:makemeover/view/artistCard.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:provider/provider.dart';
@@ -16,9 +16,7 @@ void main() async {
 
   runApp(
     MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (_) => Added(),
-      ),
+      ChangeNotifierProvider(create: (_) => IconProvider()),
     ], child: MyApp()),
   );
 }
@@ -35,3 +33,22 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+// class WishlistProvider extends ChangeNotifier {
+//   final List<Map<String, String>> _Wishlist = [];
+
+//   List<Map<String, String>> get Wishlist => _Wishlist;
+
+//   void addToWishlist(Map<String, String> item) {
+//     _Wishlist.add(item);
+//     notifyListeners();
+//   }
+//   bool isInWishlist(Map<String, String> item) {
+//     return _Wishlist.contains(item);
+//   }
+// }
+
