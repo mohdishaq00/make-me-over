@@ -1,7 +1,8 @@
-// import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:makemeover/providers.dart';
+// import 'package:makemeover/providers/WishlistProvider.dart'; // Corrected import path
 import 'package:makemeover/view/profile.dart';
+import 'package:provider/provider.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
@@ -27,21 +28,14 @@ class Artistcard extends StatefulWidget {
 
 class _ArtistcardState extends State<Artistcard> {
   bool isAddIcon = true;
-  List<String> wishlist = []; // Wishlist to store product names
-  String product = "Artist name"; // Example product name
-
-  showSnackbar(BuildContext context, String message) {
-    final snackbar = SnackBar(
-      content: Text(message),
-      duration: const Duration(seconds: 3), // Display duration
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  }
+  List<String> wishlist = [];   String product = "Artist name"; // Example product name
+  
 
   @override
   Widget build(
     BuildContext context,
   ) {
+    final wishlistProvider = Provider.of<WishlistProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
@@ -85,35 +79,22 @@ class _ArtistcardState extends State<Artistcard> {
                         width: 30,
                         child: FloatingActionButton.small(
                           onPressed: () {
-                            setState(() {
-                              isAddIcon = !isAddIcon;
-                              if (!isAddIcon) {
-                                wishlist.add(product);
-                                showSnackbar(
-                                    context, "This item is added to wishlist");
-                                wishlist.add(const Artistcard(
-                                        img: 'assets/beauty_1.jpg',
-                                        title: 'Anna Teresa',
-                                        subtitle: 'Beauty Artist',
-                                        price: '27\$')
-                                    .toString());
-                                print('added');
-                              } else {
-                                wishlist.remove(product);
-                                showSnackbar(context,
-                                    'This item is removed from wishlist');
-                              }
-                              print(
-                                  "Wishlist: $wishlist"); // For debugging purposes
-                            });
+                            if (wishlistProvider.isInWishlist(
+                                widget.title as Map<String, String>)) {
+                              wishlistProvider.removeItem(widget.title);
+                            } else {
+                              wishlist.add(widget.title);
+                            }
                           },
                           shape: const CircleBorder(),
-                          child: Icon(isAddIcon
-                              ? Icons.bookmark_add_outlined
-                              : Icons.bookmark_added),
+                          child: Icon(
+                            wishlistProvider.isInWishlist({'title': widget.title})
+                                ? Icons.bookmark_added
+                                : Icons.bookmark_add_outlined,
+                          ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 // Bottom Text Container

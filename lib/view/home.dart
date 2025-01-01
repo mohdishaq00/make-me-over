@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:makemeover/wishlist_Providers.dart';
 import 'package:makemeover/view/LoginPage.dart';
 import 'package:makemeover/view/ServiceFile.dart';
 import 'package:makemeover/view/artistCard.dart';
-
+import 'WishList.dart';
 import 'package:makemeover/view/serviceCard.dart';
-import 'package:makemeover/view/whisList.dart';
+import 'package:makemeover/view/WishList.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -153,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Whislist(),
+                        builder: (context) => WishlistPage(),
                       ),
                     );
                   },
