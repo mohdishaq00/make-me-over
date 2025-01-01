@@ -90,9 +90,26 @@ class _ArtistcardState extends State<Artistcard> {
                             onPressed: () {
                               IconProvider.toggleIcon(id);
                               final snackBar = SnackBar(
-                                content: Text(IconProvider.isAddicon(id)
-                                    ? 'Item Removed'
-                                    : 'item added'),
+                                content: Text(
+                                  textAlign: TextAlign.center,
+                                  IconProvider.isAddicon(id)
+                                      ? 'This item is removed from wishlist'
+                                      : 'This item is added to wishlist',
+                                  style: TextStyle(
+                                    color: const Color.fromARGB(
+                                        255, 220, 190, 190),
+                                  ),
+                                ),
+                                backgroundColor: IconProvider.isAddicon(id)
+                                    ? Colors.red
+                                    : Colors.green,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                duration: Duration(seconds: 1),
+                                margin: EdgeInsets.only(
+                                    right: 1250, bottom: 20, left: 20),
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
@@ -233,23 +250,22 @@ class _ArtistcardState extends State<Artistcard> {
 //     ); // For debugging purposes
 //   }
 
-//   showSnackbar(BuildContext context, String message) {
-//     final snackbar = SnackBar(
-//       content: Text(
-//         message,
-//         style: TextStyle(fontSize: 15, color: Colors.white),
-//       ),
-//       backgroundColor: const Color.fromARGB(255, 205, 166, 153),
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       behavior: SnackBarBehavior.floating, // Makes it float
-//       margin: EdgeInsets.only(right: 1230, left: 30, bottom: 20),
-//     );
+// showSnackbar(BuildContext context, String message) {
+//   final snackbar = SnackBar(
+//     content: Text(
+//       message,
+//       style: TextStyle(fontSize: 15, color: Colors.white),
+//     ),
+//     backgroundColor: const Color.fromARGB(255, 205, 166, 153),
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.circular(12),
+//     ),
+//     behavior: SnackBarBehavior.floating, // Makes it float
+//     margin: EdgeInsets.only(right: 1230, left: 30, bottom: 20),
+//   );
 
-//     const Duration(seconds: 1);
-//     ScaffoldMessenger.of(context).showSnackBar(snackbar);
-//   }
+//   const Duration(seconds: 1);
+//   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 // }
 
 class IconProvider with ChangeNotifier {
@@ -259,7 +275,7 @@ class IconProvider with ChangeNotifier {
   }
 
   void toggleIcon(id) {
-    Addicon[id] = !(Addicon[id] ?? false);
+    Addicon[id] = !(Addicon[id] ?? true);
     notifyListeners();
   }
 }
