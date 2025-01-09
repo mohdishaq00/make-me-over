@@ -7,32 +7,19 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:makemeover/view/home.dart';
-import 'package:makemeover/view/popUp.dart';
 
-class Addshop extends StatefulWidget {
-  const Addshop({super.key});
+class Updateshop extends StatefulWidget {
+  const Updateshop({super.key});
 
   @override
-  State<Addshop> createState() => _AddshopState();
+  State<Updateshop> createState() => _AddshopState();
 }
 
-class _AddshopState extends State<Addshop> {
+class _AddshopState extends State<Updateshop> {
+  // String? docId;
   final category = ['Haircut', 'Facial', 'Menicure', 'Pedicure'];
   final CollectionReference shop =
       FirebaseFirestore.instance.collection('shop');
-  void addShop() {
-    final data = {
-      'Img': imageUrl,
-      'Name': shopname.text,
-      'phone': phoneNum.text,
-      'category': selectedCategory
-    };
-    shop.add(data);
-    showPopup(
-        tiltle: 'Shop Added',
-        subtilte: 'Shop has been added successfully',
-        context: context);
-  }
 
   Future<void> pickAndUploadImage() async {
     final ImagePicker picker = ImagePicker();
@@ -60,13 +47,34 @@ class _AddshopState extends State<Addshop> {
   String? imageUrl;
   String? selectedCategory;
 
+  void updateshop(docId) {
+    final data = {
+      'Name': shopname.text,
+      'category': selectedCategory,
+    };
+    shop.doc(docId).update(data);
+    print('aseem======================================================');
+  }
+
+  // get docId => null;
+
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map?;
+    final String docId = args?['docId'];
+    if (args != null) {
+      shopname.text = args['Name'];
+      selectedCategory = args['category'];
+    } else {
+      shopname.text = '';
+      selectedCategory = null;
+    }
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 217, 216, 216),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(160, 228, 198, 188),
-        title: Text('Add Your Shop'),
+        title: Text('Edit your shop Details'),
       ),
       body: Center(
         child: Column(
@@ -75,11 +83,12 @@ class _AddshopState extends State<Addshop> {
             Text(
               'Please fill your shop details',
               style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                  wordSpacing: 5,
-                  color: const Color.fromARGB(71, 120, 120, 120)),
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 2,
+                wordSpacing: 5,
+                color: const Color.fromARGB(71, 120, 120, 120),
+              ),
             ),
             SizedBox(
               height: 30,
@@ -147,6 +156,7 @@ class _AddshopState extends State<Addshop> {
               width: 400,
               height: 100,
               child: DropdownButtonFormField(
+                value: selectedCategory,
                 decoration: InputDecoration(
                   labelText: 'Category',
                   hintText: 'Enter your name',
@@ -165,7 +175,12 @@ class _AddshopState extends State<Addshop> {
                   ),
                 ),
                 items: category
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e),
+                      ),
+                    )
                     .toList(),
                 onChanged: (val) {
                   {
@@ -175,12 +190,16 @@ class _AddshopState extends State<Addshop> {
               ),
             ),
             ElevatedButton(
-              onPressed: pickAndUploadImage,
+              // ignore: avoid_print
+              onPressed: () {
+                // print('args');
+                // pickAndUploadImage();
+              },
               child: Text('Pick Image'),
             ),
             ElevatedButton(
               onPressed: () {
-                addShop();
+                updateshop(docId);
               },
               style: ElevatedButton.styleFrom(
                 maximumSize: Size(200, 200),
@@ -193,7 +212,7 @@ class _AddshopState extends State<Addshop> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Add'),
+                  Text('Update'),
                   Icon(Icons.add),
                 ],
               ),
