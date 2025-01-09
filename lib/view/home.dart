@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:makemeover/wishlist_Providers.dart';
+import 'package:makemeover/Providers.dart';
 import 'package:makemeover/view/LoginPage.dart';
 import 'package:makemeover/view/ServiceFile.dart';
 import 'package:makemeover/view/addShop.dart';
@@ -52,8 +52,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -345,16 +343,21 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         final DocumentSnapshot shopsnap =
                             snapshot.data.docs[index];
-                        return Artistcard(
-                          img: shopsnap['image'],
-                          title: shopsnap['name'],
-                          subtitle: shopsnap['name'],
-                          price: shopsnap['price'],
+                        return Container(
+                          child: Text('hyyyy'),
                         );
+                        // Artistcard(
+                        //   img: shopsnap['image'],
+                        //   title: shopsnap['name'],
+                        //   subtitle: shopsnap['name'],
+                        //   price: shopsnap['price'],
+                        // );
                       },
                     );
                   }
@@ -370,10 +373,11 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     children: [
                       const Artistcard(
-                          img: 'assets/beauty_1.jpg',
-                          title: 'Anna Teresa',
-                          subtitle: 'Beauty Artist',
-                          price: '27\$',),
+                        img: 'assets/beauty_1.jpg',
+                        title: 'Anna Teresa',
+                        subtitle: 'Beauty Artist',
+                        price: '27\$',
+                      ),
                       divider(boxWidth: 10),
                       const Artistcard(
                           img: 'assets/beauty_1.jpg',

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:makemeover/providers/WishlistProvider.dart'; // Corrected import path
 import 'package:makemeover/view/profile.dart';
 import 'package:provider/provider.dart';
-import 'package:makemeover/wishlist_Providers.dart';
+import 'package:makemeover/Providers.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
@@ -37,10 +37,10 @@ class _ArtistcardState extends State<Artistcard> {
     BuildContext context,
   ) {
     // final wishlistProvider = Provider.of<WishlistProvider>(context);
-    final wishlistProvider = Provider.of<WishlistProvider>(context);
-    if (widget.product != null) {
-      wishlistProvider.isInWishlist(widget.product!);
-    }
+    // final wishlistProvider = Provider.of<WishlistProvider>(context);
+    // if (widget.product != null) {
+    //   wishlistProvider.isInWishlist(widget.product!);
+    // }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(

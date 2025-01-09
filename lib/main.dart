@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:makemeover/view/artistCard.dart';
 import 'package:makemeover/view/home.dart';
-import 'package:makemeover/wishlist_Providers.dart';
+import 'package:makemeover/Providers.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -18,7 +18,9 @@ void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => IconProvider()),
-      ChangeNotifierProvider(create: (_) => WishlistProvider()),
+      ChangeNotifierProvider(create: (_) => Datepicker()),
+       ChangeNotifierProvider(create: (_) => TimeProvider()),
+      // ChangeNotifierProvider(create: (_) => WishlistProvider()),
     ], child: MyApp()),
   );
 }

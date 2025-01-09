@@ -1,8 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:makemeover/Providers.dart';
+import 'package:provider/provider.dart';
 
 class Bookingpage extends StatefulWidget {
   const Bookingpage({super.key});
@@ -23,6 +25,7 @@ class _BookingpageState extends State<Bookingpage> {
     'Others'
   ];
   final TextEditingController _dateController = TextEditingController();
+
   Future<void> _selectDate(BuildContext context) async {
     // Show DatePicker dialog
     DateTime? selectedDate = await showDatePicker(
@@ -31,32 +34,6 @@ class _BookingpageState extends State<Bookingpage> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-
-    if (selectedDate != null && selectedDate != DateTime.now()) {
-      setState(() {
-        _dateController.text =
-            DateFormat('EEEE, dd-MM-yyyy').format(selectedDate);
-      });
-    }
-  }
-
-  final TextEditingController _timeController = TextEditingController();
-
-  Future<void> selectTime(BuildContext context) async {
-    // Show TimePicker dialog
-    TimeOfDay? selectedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    // If a time is selected, update the TextField with the formatted time
-    if (selectedTime != null) {
-      setState(() {
-        // Format the time as HH:mm (24-hour format) or hh:mm a (12-hour format)
-        _timeController.text = selectedTime.format(
-            context); // Automatically formats as hh:mm a (12-hour format)
-      });
-    }
   }
 
   @override
@@ -181,8 +158,6 @@ class _BookingpageState extends State<Bookingpage> {
                   SizedBox(
                     width: 400,
                     child: TextField(
-                      keyboardType: TextInputType.number,
-                      maxLength: 10,
                       decoration: InputDecoration(
                         labelText: 'phone',
                         // hintText: 'Enter your name',
@@ -321,62 +296,71 @@ class _BookingpageState extends State<Bookingpage> {
                 children: [
                   SizedBox(
                     width: 400,
-                    child: TextField(
-                      controller: _dateController,
-                      readOnly:
-                          true, // Make TextField read-only to prevent manual input
-                      decoration: InputDecoration(
-                        labelText: 'Select Date',
-                        hintText: 'DD-MM-YYYY',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                    child: Consumer<Datepicker>(builder: (
+                      context,
+                      datePicker,
+                      child,
+                    ) {
+                      return TextField(
+                        controller: _dateController,
+                        readOnly:
+                            true, // Make TextField read-only to prevent manual input
+                        decoration: InputDecoration(
+                          labelText: 'Select Date',
+                          hintText: 'DD-MM-YYYY',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                      ),
-                      cursorColor: Colors.black,
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                    ),
+                        cursorColor: Colors.black,
+                        onTap: () {
+                          datePicker.selectedDate = datePicker.selectedDate;
+                        },
+                      );
+                    }),
                   ),
                   const SizedBox(
                     width: 40,
                   ),
                   SizedBox(
                     width: 400,
-                    child: TextField(
-                      controller: _timeController,
-                      decoration: InputDecoration(
-                        labelText: 'Time',
-                        hintText: 'hh:mm,',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                    child: Consumer<TimeProvider>(
+                        builder: (context, timeProvider, child) {
+                      return TextField(
+                        controller: timeProvider.timeController,
+                        decoration: InputDecoration(
+                          labelText: 'Time',
+                          hintText: 'hh:mm,',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: const BorderSide(
+                                color: Colors.black, width: 2.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                      ),
-                      cursorColor: Colors.black,
-                      onTap: () {
-                        selectTime(context);
-                      },
-                    ),
+                        cursorColor: Colors.black,
+                        onTap: () {
+                          timeProvider.selectTime(context);
+                        },
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -401,27 +385,8 @@ class _BookingpageState extends State<Bookingpage> {
                   },
                 ),
               ),
-
               SizedBox(
                 height: 25,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Add your action here
-                  setState(
-                    () {
-                      _showPopup;
-                    },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text('Click Me'),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 770),
@@ -625,71 +590,9 @@ class _BookingpageState extends State<Bookingpage> {
               SizedBox(
                 height: 30,
               ),
-              // Padding(
-              //   padding: EdgeInsets.only(right: 440),
-              //   child: Container(
-              //     width: 200,
-              //     height: 50,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(10),
-              //       color: Colors.white,
-              //       border: Border.all(
-              //         color: Colors.black,
-              //         width: 0.5,
-              //       ),
-              //     ),
-              //     child: ElevatedButton(
-              //       onPressed: () {
-              //         showDialog(
-              //           context: context,
-              //           builder: (BuildContext context) {
-              //             return AlertDialog(
-              //               title: Text('Action Dialog'),
-              //               content: SizedBox(
-              //                 width: MediaQuery.of(context).size.width *
-              //                     0.8, // 80% of screen width
-              //                 height: 200, // Fixed height
-              //                 child: SingleChildScrollView(
-              //                   child: Text(
-              //                     'This is an example of a larger dialog. You can include more content here, such as text, images, or other widgets.',
-              //                   ),
-              //                 ),
-              //               ),
-              //               actions: [
-              //                 TextButton(
-              //                   onPressed: () {
-              //                     Navigator.of(context)
-              //                         .pop(); // Close the dialog
-              //                   },
-              //                   child: Text('Close'),
-              //                 ),
-              //               ],
-              //             );
-              //           },
-              //         );
-              //       },
-              //       style: ElevatedButton.styleFrom(
-              //         backgroundColor: Colors.white, // Background color
-              //         foregroundColor: Colors.black, // Text color
-              //         elevation: 0, // Removes shadow
-              //         side: BorderSide(
-              //           color: Colors.black, // Border color
-              //           width: 1.0, // Border width
-              //         ),
-              //         shape: RoundedRectangleBorder(
-              //           borderRadius:
-              //               BorderRadius.circular(10), // Rounded corners
-              //         ),
-              //       ),
-              //       child: Text('Net Banking'),
-              //     ),
-              //   ),
-              // ),
-
               SizedBox(
                 height: 40,
               ),
-
               ElevatedButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -697,8 +600,11 @@ class _BookingpageState extends State<Bookingpage> {
                       content: Text(
                         'Your booking is confirmed!',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      behavior: SnackBarBehavior.floating,
                     ),
                   );
                 },
@@ -712,12 +618,12 @@ class _BookingpageState extends State<Bookingpage> {
                 child: Text(
                   'Booking confirmed',
                   style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-
               const SizedBox(
                 height: 50,
               ),
@@ -727,29 +633,4 @@ class _BookingpageState extends State<Bookingpage> {
       ),
     );
   }
-}
-
-void _showPopup(dynamic ctx) {
-  showDialog(
-    context: ctx,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        // title: const Text('Hi There!'),
-        content: const Padding(
-          padding: EdgeInsets.only(left: 52, top: 35),
-          child: Text(
-            'Booking completed\n We will  reach you asap',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the popup
-            },
-            child: const Text('Done'),
-          ),
-        ],
-      );
-    },
-  );
 }
