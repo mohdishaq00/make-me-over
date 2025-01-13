@@ -30,11 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+
+  font_awesome_flutter: ^10.8.0  
   url_launcher: ^6.3.1  
   share_plus: ^10.1.2
   google_fonts: ^6.2.1
   intl: ^0.20.1
+  image_picker: ^0.8.7+4
+  firebase_storage: 12.3.7
   
 
 
@@ -46,6 +49,8 @@ dependencies:
   google_sign_in: ^6.2.2
   firebase_core_dart: ^1.0.1
   provider: ^6.1.2
+  cloud_firestore: ^5.5.1
+  firebase_database: ^11.2.0
   flutter_facebook_auth: ^7.1.1
 
 dev_dependencies:
@@ -96,6 +101,7 @@ flutter:
       - assets/facial123.png
       - assets/makeup123.png
       - assets/hair123.png
+      - assets/googlepay.png
       
       
 

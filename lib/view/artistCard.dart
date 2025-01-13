@@ -1,11 +1,19 @@
+// import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:makemeover/view/home.dart';
 import 'package:makemeover/view/profile.dart';
+import 'package:makemeover/view/updateShop.dart';
+import 'package:provider/provider.dart';
+import 'package:makemeover/view/addShop.dart';
 
 class Artistcard extends StatefulWidget {
   final String img;
+
   final String title;
   final String subtitle;
-  final String price;
+
   final VoidCallback? onAddToWishlist;
   final Map<String, String>? product; // Product data
   final bool? isInWishlist;
@@ -14,7 +22,6 @@ class Artistcard extends StatefulWidget {
     required this.img,
     required this.title,
     required this.subtitle,
-    required this.price,
     this.onAddToWishlist,
     this.product,
     this.isInWishlist,
@@ -24,27 +31,24 @@ class Artistcard extends StatefulWidget {
 }
 
 class _ArtistcardState extends State<Artistcard> {
-  bool isAddIcon = true;
-  List<String> wishlist = []; // Wishlist to store product names
-  String product = "Artist 1"; // Example product name
-
   @override
   Widget build(
     BuildContext context,
   ) {
+    final shopsnap = Provider.of<Shopsnap>(context).shopsnap;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const profilepage(),
-              ));
-
-          // print("Card tapped!");
-          // Perform any action for Card
-          _showPopup(context); // Perform any action for Card
+            context,
+            MaterialPageRoute(
+              builder: (context) => profilepage(
+                shopId: 'errer',
+              ),
+            ),
+          );
         },
         child: Card(
           clipBehavior: Clip.antiAlias,
@@ -76,29 +80,46 @@ class _ArtistcardState extends State<Artistcard> {
                       child: SizedBox(
                         height: 30,
                         width: 30,
-                        child: FloatingActionButton.small(
-                          onPressed: () {
-                            setState(() {
-                              isAddIcon = !isAddIcon;
-                              if (!isAddIcon) {
-                                wishlist.add(const Artistcard(
-                                        img: 'assets/beauty_1.jpg',
-                                        title: 'Anna Teresa',
-                                        subtitle: 'Beauty Artist',
-                                        price: '27\$')
-                                    .toString());
-                                print('added');
-                              } else {
-                                wishlist.remove(product);
-                              }
-                              print(
-                                  "Wishlist: $wishlist"); // For debugging purposes
-                            });
+                        child: Consumer<IconProvider>(
+                          builder: (context, IconProvider, child) {
+                            final id = widget.title; // Define the id variable
+
+                            return FloatingActionButton.small(
+                              shape: const CircleBorder(),
+                              child: Icon(
+                                IconProvider.isAddicon(id)
+                                    ? Icons.bookmark_add_outlined
+                                    : Icons.bookmark_added,
+                              ),
+                              onPressed: () {
+                                IconProvider.toggleIcon(id);
+                                final snackBar = SnackBar(
+                                  content: Text(
+                                    textAlign: TextAlign.center,
+                                    IconProvider.isAddicon(id)
+                                        ? 'This item is removed from wishlist'
+                                        : 'This item is added to wishlist',
+                                    style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 220, 190, 190),
+                                    ),
+                                  ),
+                                  backgroundColor: IconProvider.isAddicon(id)
+                                      ? Colors.red
+                                      : Colors.green,
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  duration: Duration(seconds: 1),
+                                  margin: EdgeInsets.only(
+                                      right: 1250, bottom: 20, left: 20),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                            );
                           },
-                          shape: const CircleBorder(),
-                          child: Icon(isAddIcon
-                              ? Icons.bookmark_add_outlined
-                              : Icons.bookmark_added),
                         ),
                       ),
                     )
@@ -119,9 +140,6 @@ class _ArtistcardState extends State<Artistcard> {
                             fontWeight: FontWeight.w600,
                             color: Colors.black),
                       ),
-                      // const SizedBox(
-                      //   width: 300,
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -136,20 +154,50 @@ class _ArtistcardState extends State<Artistcard> {
                           const Text('4.2'),
                         ],
                       ),
-
+                      PopupMenuButton<dynamic>(
+                        style: ButtonStyle(),
+                        itemBuilder: (
+                          BuildContext context,
+                        ) {
+                          final int index = 0; // Define the index variable
+                          final shopData =
+                              shopsnap[index].data() as Map<String, dynamic>;
+                          return [
+                            PopupMenuItem(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                'updateShop',
+                                arguments: <String, dynamic>{
+                                  'Name': shopData['Name'],
+                                  // shopData.containsKey('Name')
+                                  //     ? shopData['Name']
+                                  //     : 'Unknown Artist',
+                                  'subtitle': shopData['phone'],
+                                  'id': shopData['id'],
+                                },
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text('Edit'),
+                                  Icon(
+                                    size: 20,
+                                    Icons.edit_outlined,
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ];
+                        },
+                      ),
                       Text(
                         widget.subtitle,
                         style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: Colors.black38),
-                      ),
-                      Text(
-                        widget.price,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black),
                       ),
                     ],
                   ),
@@ -163,27 +211,14 @@ class _ArtistcardState extends State<Artistcard> {
   }
 }
 
-void _showPopup(dynamic context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        // title: const Text('Wait Bro..'),
-        content: const Padding(
-          padding: EdgeInsets.only(left: 52, top: 35),
-          child: Text(
-            'Coming Soon..!',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the popup
-            },
-            child: const Text('Done'),
-          ),
-        ],
-      );
-    },
-  );
-}
+// class IconProvider with ChangeNotifier {
+//   final Map<String, bool> Addicon = {};
+//   bool isAddicon(String id) {
+//     return Addicon[id] ?? true;
+//   }
+
+//   void toggleIcon(id) {
+//     Addicon[id] = !(Addicon[id] ?? true);
+//     notifyListeners();
+//   }
+// }

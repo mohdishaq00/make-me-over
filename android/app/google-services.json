@@ -3,6 +3,7 @@
     "project_number": "1010428768816",
     "project_id": "makemeover-1cf53",
     "storage_bucket": "makemeover-1cf53.firebasestorage.app"
+ 
   },
   "client": [
     {
@@ -16,7 +17,7 @@
         {
           "client_id": "1010428768816-afujol55r41t7a68jbi308irtmd7bg3n.apps.googleusercontent.com",
           "client_type": 3
-        }
+        } 
       ],
       "api_key": [
         {
