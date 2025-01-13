@@ -20,18 +20,46 @@ class _AddshopState extends State<Addshop> {
   final category = ['Haircut', 'Facial', 'Menicure', 'Pedicure'];
   final CollectionReference shop =
       FirebaseFirestore.instance.collection('shop');
-  void addShop() {
-    final data = {
-      'Img': imageUrl,
-      'Name': shopname.text,
-      'phone': phoneNum.text,
-      'category': selectedCategory
-    };
-    shop.add(data);
-    showPopup(
-        tiltle: 'Shop Added',
-        subtilte: 'Shop has been added successfully',
-        context: context);
+
+  addShop(BuildContext context) {
+    final name = shopname.text;
+    final phone = phoneNum.text;
+    if (name.isEmpty || phone.isEmpty) {
+      showPopup(
+          context: context,
+          tiltle: 'Error',
+          subtilte: 'Please Fill the fields',
+          confirmTitle2: 'ok');
+    } else {
+      final data = {
+        'Img': imageUrl,
+        'Name': shopname.text,
+        'phone': phoneNum.text,
+        'category': selectedCategory
+      };
+
+      shop.add(data).then((_) {
+        showPopup(
+          tiltle: 'Shop Added',
+          subtilte: 'Shop has been added successfully',
+          // ignore: use_build_context_synchronously
+          context: context,
+          confirmTitle1: '',
+          confirmTitle2: 'yes',
+          onPressed2: () {
+            Navigator.pushReplacementNamed(context, '/');
+          },
+        );
+      }).catchError((error) {
+        showPopup(
+          // ignore: use_build_context_synchronously
+          context: context,
+          tiltle: 'Error',
+          subtilte: 'Failed to add shop: $error',
+          confirmTitle2: 'OK',
+        );
+      });
+    }
   }
 
   Future<void> pickAndUploadImage() async {
@@ -178,9 +206,23 @@ class _AddshopState extends State<Addshop> {
               onPressed: pickAndUploadImage,
               child: Text('Pick Image'),
             ),
+            divider(boxHeight: 40),
             ElevatedButton(
               onPressed: () {
-                addShop();
+                setState(() {
+                  addShop(context);
+                });
+
+                // showPopup(
+                //   tiltle: 'Shop Added',
+                //   subtilte: 'Shop has been added successfully',
+                //   context: context,
+                //   confirmTitle1: '',
+                //   confirmTitle2: 'yes',
+                //   onPressed: () {
+                //     Navigator.pushReplacementNamed(context, '/');
+                //   },
+                // );
               },
               style: ElevatedButton.styleFrom(
                 maximumSize: Size(200, 200),

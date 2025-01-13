@@ -7,15 +7,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:makemeover/view/home.dart';
+import 'package:makemeover/view/popUp.dart';
 
 class Updateshop extends StatefulWidget {
   const Updateshop({super.key});
 
   @override
-  State<Updateshop> createState() => _AddshopState();
+  State<Updateshop> createState() => _UpdateshopState();
 }
 
-class _AddshopState extends State<Updateshop> {
+class _UpdateshopState extends State<Updateshop> {
   // String? docId;
   final category = ['Haircut', 'Facial', 'Menicure', 'Pedicure'];
   final CollectionReference shop =
@@ -47,29 +48,43 @@ class _AddshopState extends State<Updateshop> {
   String? imageUrl;
   String? selectedCategory;
 
-  void updateshop(docId) {
+  void updateshop(String docId) {
     final data = {
       'Name': shopname.text,
+      'phone': phoneNum.text,
       'category': selectedCategory,
     };
+    print('Updating document with ID: $docId');
+    print('Data: $data');
     shop.doc(docId).update(data);
-    print('aseem======================================================');
+    // // ignore: avoid_print
+    // .then((value) => print('object'))
+    // // ignore: avoid_print
+    // .catchError((e) => print("Error updating document $e"));
+    showPopup(
+      context: context,
+      tiltle: 'Updated',
+      subtilte: 'Shop detials has been updated successfully',
+      confirmTitle2: 'Done',
+      onPressed2: () {
+        Navigator.pushReplacementNamed(context, '/');
+      },
+    );
   }
-
-  // get docId => null;
 
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map?;
-    final String docId = args?['docId'];
+    String docId = args?['id'] ?? '';
     if (args != null) {
-      shopname.text = args['Name'];
-      selectedCategory = args['category'];
+      shopname.text = args['Name'] ?? '';
+      phoneNum.text = args['phone'] ?? '';
+      selectedCategory = args['category'] ?? '';
     } else {
       shopname.text = '';
+      phoneNum.text = '';
       selectedCategory = null;
     }
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 217, 216, 216),
       appBar: AppBar(
@@ -159,7 +174,7 @@ class _AddshopState extends State<Updateshop> {
                 value: selectedCategory,
                 decoration: InputDecoration(
                   labelText: 'Category',
-                  hintText: 'Enter your name',
+                  // hintText: 'Enter your name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -199,6 +214,8 @@ class _AddshopState extends State<Updateshop> {
             ),
             ElevatedButton(
               onPressed: () {
+                print(args);
+                print(selectedCategory);
                 updateshop(docId);
               },
               style: ElevatedButton.styleFrom(
