@@ -7,6 +7,7 @@ import 'package:makemeover/view/addShop.dart';
 import 'package:makemeover/view/artistCard.dart';
 import 'WishList.dart';
 import 'package:makemeover/view/addShop.dart';
+import 'package:makemeover/view/popUp.dart';
 import 'package:makemeover/view/profile.dart';
 
 import 'package:makemeover/view/serviceCard.dart';
@@ -35,7 +36,22 @@ class _HomePageState extends State<HomePage> {
   final CollectionReference shop =
       FirebaseFirestore.instance.collection('shop');
 
-  String? get id => null;
+  void deleteShop(docId) {
+    showPopup(
+      context: context,
+      tiltle: '!!!',
+      subtilte: 'Are You Sure Want to Delete',
+      confirmTitle1: 'No',
+      onPressed1: () {
+        Navigator.pop(context);
+      },
+      confirmTitle2: 'Yes',
+      onPressed2: () {
+        shop.doc(docId).delete();
+        Navigator.pop(context);
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -270,147 +286,147 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       //body starts here
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              divider(
-                boxHeight: 15,
-              ),
-              const Text(
-                'Top Services',
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Aovel',
-                    letterSpacing: 2),
-              ),
-              divider(
-                boxHeight: 15,
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            divider(
+              boxHeight: 15,
+            ),
+            const Text(
+              'Top Services',
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Aovel',
+                  letterSpacing: 2),
+            ),
+            divider(
+              boxHeight: 15,
+            ),
 
-              // ServiceCards
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: IntrinsicWidth(
-                  child: Row(
-                    children: pageData.map((data) {
-                      return Servicecard(
-                        title: data['title'],
-                        // : data['image'],
-                        label: '',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  ServiceArtistList(
-                                title: data['title'],
-                                description: data['description'],
-                                txt: data['txt'],
-                              ),
+            // ServiceCards
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: IntrinsicWidth(
+                child: Row(
+                  children: pageData.map((data) {
+                    return Servicecard(
+                      title: data['title'],
+                      // : data['image'],
+                      label: '',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                ServiceArtistList(
+                              title: data['title'],
+                              description: data['description'],
+                              txt: data['txt'],
                             ),
-                          );
-                        },
-                        image: data['image'],
-                      );
-                    }).toList(),
-                  ),
+                          ),
+                        );
+                      },
+                      image: data['image'],
+                    );
+                  }).toList(),
                 ),
               ),
-              divider(
-                boxWidth: 10,
-              ),
-              divider(
-                boxHeight: 15,
-              ),
-              const Text(
-                'Top Artist',
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Aovel',
-                    letterSpacing: 2),
-              ),
-              StreamBuilder(
-                stream: shop.snapshots(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  // if (snapshot.connectionState == ConnectionState.waiting) {
-                  //   return Center(
-                  //     child: CircularProgressIndicator(),
-                  //   );
-                  // }
-                  if (snapshot.hasData) {
-                    // final List<DocumentSnapshot> shopsnap = snapshot.data!.docs;
-                    // Provider.of<Shopsnap>(context, listen: false)
-                    //     .setShopsnap(shopsnap);
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          // crossAxisCount: 3,
-                          childAspectRatio: 1.553,
-                          crossAxisSpacing: 35,
-                          mainAxisSpacing: 35,
-                        ),
-                        itemCount: snapshot.data.docs.length,
-                        itemBuilder: (context, index) {
-                          final DocumentSnapshot shopData =
-                              snapshot.data.docs[index];
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => profilepage(
-                                    shopId: shopData['Name'],
-                                  ),
+            ),
+            divider(
+              boxWidth: 10,
+            ),
+            divider(
+              boxHeight: 15,
+            ),
+            const Text(
+              'Top Artist',
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Aovel',
+                  letterSpacing: 2),
+            ),
+            StreamBuilder(
+              stream: shop.snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
+                // if (snapshot.connectionState == ConnectionState.waiting) {
+                //   return Center(
+                //     child: CircularProgressIndicator(),
+                //   );
+                // }
+                if (snapshot.hasData) {
+                  // final List<DocumentSnapshot> shopsnap = snapshot.data!.docs;
+                  // Provider.of<Shopsnap>(context, listen: false)
+                  //     .setShopsnap(shopsnap);
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        // crossAxisCount: 3,
+                        childAspectRatio: 1.5538,
+                        crossAxisSpacing: 35,
+                        mainAxisSpacing: 35,
+                      ),
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (context, index) {
+                        final DocumentSnapshot shopData =
+                            snapshot.data.docs[index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => profilepage(
+                                  shopId: shopData['Name'],
                                 ),
-                              );
-                            },
-                            child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
                               ),
-                              child: Container(
-                                width: 450,
-                                height: 300,
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    // Top Image Container
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          width: 480,
-                                          height: 220,
-                                          color: Colors.blueAccent,
-                                          child: Image.asset(
-                                            'assets/image.png',
-                                            // shopData['Img'],
-                                            fit: BoxFit.fill,
-                                          ),
+                            );
+                          },
+                          child: Card(
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Container(
+                              width: 450,
+                              height: 300,
+                              color: Colors.white,
+                              child: Column(
+                                children: [
+                                  // Top Image Container
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        width: 480,
+                                        height: 220,
+                                        color: Colors.blueAccent,
+                                        child: Image.asset(
+                                          'assets/image.png',
+                                          // shopData['Img'],
+                                          fit: BoxFit.fill,
                                         ),
-                                        Positioned(
-                                          left: 430,
-                                          top: 8,
-                                          child: SizedBox(
-                                            height: 30,
-                                            width: 30,
-                                            child: Consumer<IconProvider>(
-                                              builder: (context, iconProvider,
-                                                  child) {
-                                                // final id = widget.title;
-                                                // Define the id variable
+                                      ),
+                                      Positioned(
+                                        left: 430,
+                                        top: 8,
+                                        child: SizedBox(
+                                          height: 30,
+                                          width: 30,
+                                          child: Consumer<IconProvider>(
+                                            builder:
+                                                (context, iconProvider, child) {
+                                              // final id = widget.title;
+                                              // Define the id variable
 
-                                                return FloatingActionButton
-                                                    .small(
-                                                  shape: const CircleBorder(),
+                                              return FloatingActionButton.small(
+                                                shape: const CircleBorder(),
+                                                child: Tooltip(
+                                                  message: 'Wishlist',
                                                   child: Icon(
                                                     iconProvider.isAddicon(
                                                             shopData.id)
@@ -551,16 +567,26 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           );
+                          // Artistcard(
+                          //   img: (shopData.data() as Map<String, dynamic>)
+                          //           .containsKey('img')
+                          //       ? shopData['img']
+                          //       : 'default_image_path',
+                          //   title: (shopData.data() as Map<String, dynamic>)
+                          //           .containsKey('Name')
+                          //       ? shopData['Name']
+                          //       : 'Unknown Artist',
+                          //   subtitle: shopData['phone'],
+                          // );
                         },
                       ),
                     );
                   }
 
-                  return Container();
-                },
-              ),
-            ],
-          ),
+                return Container();
+              },
+            ),
+          ],
         ),
       ),
     );
