@@ -6,50 +6,43 @@ import 'package:makemeover/view/ServiceFile.dart';
 import 'package:makemeover/view/addShop.dart';
 import 'package:makemeover/view/artistCard.dart';
 import 'WishList.dart';
+import 'package:makemeover/view/addShop.dart';
+import 'package:makemeover/view/profile.dart';
+
 import 'package:makemeover/view/serviceCard.dart';
 import 'package:makemeover/view/whisList.dart';
 import 'package:makemeover/viewmodel/authentication.dart';
+import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  var title;
+  final String? id;
+
+  HomePage({
+    super.key,
+    this.title,
+    this.id,
+  });
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  // late List<DocumentSnapshot> shopsnap;
+  HomePage homePage = HomePage();
   final CollectionReference shop =
       FirebaseFirestore.instance.collection('shop');
+
+  String? get id => null;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showPopup();
-    });
-  }
 
-  void _showPopup() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Hi There!'),
-          content: const Padding(
-            padding: EdgeInsets.only(left: 52, top: 35),
-            child: Text(
-              'Pick Your Choice',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the popup
-              },
-              child: const Text('Done'),
-            ),
-          ],
-        );
-      },
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {},
     );
   }
 
@@ -154,7 +147,8 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Loginpage()),
+                        builder: (context) => const Loginpage(),
+                      ),
                     );
                   },
                   icon: const Icon(Icons.account_circle_rounded),
@@ -164,7 +158,9 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Whislist()),
+                      MaterialPageRoute(
+                        builder: (context) => const Whislist(),
+                      ),
                     );
                   },
                   icon: const Icon(Icons.bookmark_added),
@@ -341,58 +337,227 @@ class _HomePageState extends State<HomePage> {
               StreamBuilder(
                 stream: shop.snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
+                  // if (snapshot.connectionState == ConnectionState.waiting) {
+                  //   return Center(
+                  //     child: CircularProgressIndicator(),
+                  //   );
+                  // }
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        final DocumentSnapshot shopsnap =
-                            snapshot.data.docs[index];
-                        return Container(
-                          child: Text('hyyyy'),
-                        );
-                        // Artistcard(
-                        //   img: shopsnap['image'],
-                        //   title: shopsnap['name'],
-                        //   subtitle: shopsnap['name'],
-                        //   price: shopsnap['price'],
-                        // );
-                      },
+                    // final List<DocumentSnapshot> shopsnap = snapshot.data!.docs;
+                    // Provider.of<Shopsnap>(context, listen: false)
+                    //     .setShopsnap(shopsnap);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          // crossAxisCount: 3,
+                          childAspectRatio: 1.553,
+                          crossAxisSpacing: 35,
+                          mainAxisSpacing: 35,
+                        ),
+                        itemCount: snapshot.data.docs.length,
+                        itemBuilder: (context, index) {
+                          final DocumentSnapshot shopData =
+                              snapshot.data.docs[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => profilepage(
+                                    shopId: shopData['Name'],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Container(
+                                width: 450,
+                                height: 300,
+                                color: Colors.white,
+                                child: Column(
+                                  children: [
+                                    // Top Image Container
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          width: 480,
+                                          height: 220,
+                                          color: Colors.blueAccent,
+                                          child: Image.asset(
+                                            'assets/image.png',
+                                            // shopData['Img'],
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: 430,
+                                          top: 8,
+                                          child: SizedBox(
+                                            height: 30,
+                                            width: 30,
+                                            child: Consumer<IconProvider>(
+                                              builder: (context, iconProvider,
+                                                  child) {
+                                                // final id = widget.title;
+                                                // Define the id variable
+
+                                                return FloatingActionButton
+                                                    .small(
+                                                  shape: const CircleBorder(),
+                                                  child: Icon(
+                                                    iconProvider.isAddicon(
+                                                            shopData.id)
+                                                        ? Icons
+                                                            .bookmark_add_outlined
+                                                        : Icons.bookmark_added,
+                                                  ),
+                                                  onPressed: () {
+                                                    iconProvider.toggleIcon(
+                                                        shopData.id);
+                                                    final snackBar = SnackBar(
+                                                      content: Text(
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        iconProvider.isAddicon(
+                                                                shopData.id)
+                                                            ? 'This item is removed from wishlist'
+                                                            : 'This item is added to wishlist',
+                                                        style: TextStyle(
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              220, 190, 190),
+                                                        ),
+                                                      ),
+                                                      backgroundColor:
+                                                          iconProvider
+                                                                  .isAddicon(
+                                                                      shopData
+                                                                          .id)
+                                                              ? Colors.red
+                                                              : Colors.green,
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                      ),
+                                                      duration:
+                                                          Duration(seconds: 1),
+                                                      margin: EdgeInsets.only(
+                                                          right: 1250,
+                                                          bottom: 20,
+                                                          left: 20),
+                                                    );
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(snackBar);
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // Bottom Text Container
+                                    Container(
+                                      width: 480,
+                                      height: 80,
+                                      color: const Color.fromARGB(
+                                          255, 193, 208, 210),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            shopData['Name'], // title!,
+                                            style: const TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black),
+                                          ),
+                                          Text(
+                                            shopData['category'],
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black38),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 3, right: 3),
+                                                child: Image.asset(
+                                                  'assets/Star.png',
+                                                  height: 18,
+                                                  width: 18,
+                                                ),
+                                              ),
+                                              const Text('4.2'),
+                                            ],
+                                          ),
+                                          PopupMenuButton<dynamic>(
+                                            style: ButtonStyle(),
+                                            itemBuilder: (
+                                              BuildContext context,
+                                            ) {
+                                              return [
+                                                PopupMenuItem(
+                                                  onTap: () =>
+                                                      Navigator.pushNamed(
+                                                    context,
+                                                    'updateShop',
+                                                    arguments: {
+                                                      'Name': shopData['Name'],
+                                                      'category':
+                                                          shopData['category'],
+                                                      'id': shopData.id,
+                                                    },
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Text('Edit'),
+                                                      Icon(
+                                                        size: 20,
+                                                        Icons.edit_outlined,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ];
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     );
                   }
-                  // ignore: avoid_unnecessary_containers
+
                   return Container();
                 },
-              ),
-
-              //Artist Card
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: IntrinsicWidth(
-                  child: Row(
-                    children: [
-                      const Artistcard(
-                        img: 'assets/beauty_1.jpg',
-                        title: 'Anna Teresa',
-                        subtitle: 'Beauty Artist',
-                        price: '27\$',
-                      ),
-                      divider(boxWidth: 10),
-                      const Artistcard(
-                          img: 'assets/beauty_1.jpg',
-                          title: 'Stephy',
-                          subtitle: 'Beauty Artist',
-                          price: '27\$'),
-                      divider(boxWidth: 10),
-                      const Artistcard(
-                          img: "assets/beauty 2.jpg",
-                          title: "Stella",
-                          subtitle: 'Beauty Artist',
-                          price: '27\$'),
-                    ],
-                  ),
-                ),
               ),
             ],
           ),
@@ -410,4 +575,24 @@ Widget divider({
     height: boxHeight,
     width: boxWidth,
   );
+}
+
+class Shopsnap with ChangeNotifier {
+  List<DocumentSnapshot> shopsnap = [];
+  void setShopsnap(List<DocumentSnapshot> newShopsnap) {
+    shopsnap = newShopsnap;
+    notifyListeners();
+  }
+}
+
+class IconProvider with ChangeNotifier {
+  final Map<String, bool> addicon = {};
+  bool isAddicon(String id) {
+    return addicon[id] ?? true;
+  }
+
+  void toggleIcon(id) {
+    addicon[id] = !(addicon[id] ?? true);
+    notifyListeners();
+  }
 }

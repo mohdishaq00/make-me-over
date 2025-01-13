@@ -2,8 +2,8 @@
   "project_info": {
     "project_number": "1010428768816",
     "project_id": "makemeover-1cf53",
-    "storage_bucket": "makemeover-1cf53.firebasestorage.app",
-    "firebase_url": "https://makemeover-id.firebaseio.com"
+    "storage_bucket": "makemeover-1cf53.firebasestorage.app"
+ 
   },
   "client": [
     {
