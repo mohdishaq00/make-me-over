@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:makemeover/Providers.dart';
 import 'package:provider/provider.dart';
+import 'package:date_picker_plus/date_picker_plus.dart';
 
 class Bookingpage extends StatefulWidget {
   const Bookingpage({super.key});
@@ -15,24 +16,17 @@ class Bookingpage extends StatefulWidget {
 
 class _BookingpageState extends State<Bookingpage> {
   final TextEditingController _textController = TextEditingController();
-  String? _selectedService;
-  final List<String> _services = [
-    'Bridal Makeup',
-    'party Makeup',
-    'Facial',
-    'Modeling Makeup',
-    'Manicure',
-    'Others'
-  ];
+  String? selectedService;
+
   final TextEditingController _dateController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
     // Show DatePicker dialog
-    DateTime? selectedDate = await showDatePicker(
+    final Datepicker = await showRangePickerDialog(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      initialDate: DateTime(2022, 10, 10),
+      minDate: DateTime(2020, 10, 10),
+      maxDate: DateTime(2024, 10, 30),
     );
   }
 
@@ -204,15 +198,13 @@ class _BookingpageState extends State<Bookingpage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 400,
-                    child: Stack(
-                      children: [
-                        // TextField
-                        TextField(
-                          controller: _textController,
+                  Consumer<MakeupService>(builder: (context, makeup, child) {
+                    return SizedBox(
+                      width: 400,
+                      child: DropdownButtonFormField(
                           decoration: InputDecoration(
-                            labelText: 'what makeup you prefer?',
+                            labelText: 'What makeup do you prefer',
+                            // hintText: 'Enter your name',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.0),
                             ),
@@ -227,42 +219,15 @@ class _BookingpageState extends State<Bookingpage> {
                                   color: Colors.grey, width: 1.0),
                             ),
                           ),
-                          cursorColor: Colors.black,
-                        ),
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          // ignore: sized_box_for_whitespace
-                          child: Container(
-                            width: double
-                                .infinity, // Make the dropdown full width of the TextField
-                            child: PopupMenuButton<String>(
-                              icon: Container(),
-                              onSelected: (String value) {
-                                setState(() {
-                                  _selectedService = value;
-                                  _textController.text = value;
-                                });
-                              },
-                              itemBuilder: (BuildContext context) {
-                                return _services.map((String service) {
-                                  return PopupMenuItem<String>(
-                                    value: service,
-                                    child: Text(service),
-                                  );
-                                }).toList();
-                              },
-                              constraints: const BoxConstraints(
-                                minWidth:
-                                    400.0, // Set the width of the dropdown to match TextField
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                          items: makeup.services.map((String service) {
+                            return DropdownMenuItem<String>(
+                              value: service,
+                              child: Text(service),
+                            );
+                          }).toList(),
+                          onChanged: (val) {}),
+                    );
+                  }),
                   const SizedBox(width: 40),
                   SizedBox(
                     width: 400,
@@ -324,7 +289,7 @@ class _BookingpageState extends State<Bookingpage> {
                         ),
                         cursorColor: Colors.black,
                         onTap: () {
-                          datePicker.selectedDate = datePicker.selectedDate;
+                          datePicker;
                         },
                       );
                     }),

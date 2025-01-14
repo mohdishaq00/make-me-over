@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // class WishlistProvider extends ChangeNotifier {
 //   final List<Map<String, String>> _Wishlist = [];
@@ -26,17 +28,21 @@ class Datepicker extends ChangeNotifier {
 
   void updateDate(DateTime newDate) {
     selectedDate = newDate;
+    final TextEditingController dateController = TextEditingController();
     Future<void> selectDate(BuildContext context) async {
-      DateTime? selectedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2101),
-      );
-      if (selectedDate != null) {
-        updateDate(newDate);
+     final Datepicker = await showRangePickerDialog(
+      context: context,
+      initialDate: DateTime(2022, 10, 10),
+      minDate: DateTime(2020, 10, 10),
+      maxDate: DateTime(2024, 10, 30),
+      
+);
+  
+      if (newDate != selectedDate) {
+        selectedDate = newDate;
+        dateController.text = DateFormat('dd-MM-yyyy').format(newDate);
+        notifyListeners();
       }
-      notifyListeners();
     }
   }
 }
@@ -78,6 +84,27 @@ class ShopProvider with ChangeNotifier {
     } catch (e) {
       artistName = 'Error loading artist';
     }
+    notifyListeners();
+  }
+}
+
+class MakeupService extends ChangeNotifier {
+  String? selectedserives;
+  List<String> services = [
+    'Bridal Makeup',
+    'party Makeup',
+    'Facial',
+    'Modeling Makeup',
+    'Manicure',
+    'Others'
+  ];
+  MakeupService? selectedservice;
+  TextEditingController serviceController = TextEditingController();
+  MakeupService? get selectedService => selectedservice;
+
+  void setselectedservice(stringvalue) {
+    selectedservice = stringvalue;
+    serviceController.text = stringvalue;
     notifyListeners();
   }
 }

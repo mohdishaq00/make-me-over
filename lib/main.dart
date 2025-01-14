@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:makemeover/Providers.dart';
 import 'package:makemeover/model/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 // import 'package:makemeover/view/artistCard.dart';
 import 'package:makemeover/view/home.dart';
-import 'package:makemeover/Providers.dart';
+// import 'package:makemeover/Providers.dart';
 import 'package:makemeover/view/updateShop.dart';
 import 'package:provider/provider.dart';
 // import 'package:makemeover/view/updateShop.dart';
@@ -23,6 +22,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => IconProvider()),
       ChangeNotifierProvider(create: (_) => Datepicker()),
       ChangeNotifierProvider(create: (_) => TimeProvider()),
+      ChangeNotifierProvider(create: (_) => MakeupService()),
       // ChangeNotifierProvider(create: (_) => WishlistProvider()),
       ChangeNotifierProvider(
         create: (_) => IconProvider(),
@@ -30,9 +30,11 @@ void main() async {
       ChangeNotifierProvider(
         create: (_) => IconProvider(),
       ),
+
       ChangeNotifierProvider(
         create: (_) => Shopsnap(),
       ),
+ 
       ChangeNotifierProvider(
         create: (context) => ShopProvider(),
       ),

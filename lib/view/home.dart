@@ -368,9 +368,9 @@ class _HomePageState extends State<HomePage> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         // crossAxisCount: 3,
-                        childAspectRatio: 1.5538,
-                        crossAxisSpacing: 35,
-                        mainAxisSpacing: 35,
+                        childAspectRatio: 1.4495,
+                        crossAxisSpacing: 30,
+                        mainAxisSpacing: 30,
                       ),
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
@@ -433,7 +433,7 @@ class _HomePageState extends State<HomePage> {
                                                         ? Icons
                                                             .bookmark_add_outlined
                                                         : Icons.bookmark_added,
-                                                  ),
+                                                  ),),
                                                   onPressed: () {
                                                     iconProvider.toggleIcon(
                                                         shopData.id);
