@@ -1,16 +1,26 @@
 // import 'dart:ffi' as ffi;
 
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:makemeover/view/popUp.dart';
 
 class Updateshop extends StatefulWidget {
-  const Updateshop({super.key});
+  final String name;
+  final String phone;
+  final String category;
+  final String id;
+  const Updateshop({
+    super.key,
+    required this.name,
+    required this.phone,
+    required this.category,
+    required this.id,
+  });
 
   @override
   State<Updateshop> createState() => _UpdateshopState();
@@ -22,33 +32,34 @@ class _UpdateshopState extends State<Updateshop> {
   final CollectionReference shop =
       FirebaseFirestore.instance.collection('shop');
 
-  Future<void> pickAndUploadImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image == null) return;
+  // Future<void> pickAndUploadImage() async {
+  //   final ImagePicker picker = ImagePicker();
+  //   final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  //   if (image == null) return;
 
-    File file = File(image.path);
-    String fileName = image.name;
+  //   File file = File(image.path);
+  //   String fileName = image.name;
 
-    try {
-      await FirebaseStorage.instance.ref('uploads/$fileName').putFile(file);
-      String downloadURL = await FirebaseStorage.instance
-          .ref('uploads/$fileName')
-          .getDownloadURL();
-      setState(() {
-        imageUrl = downloadURL;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  //   try {
+  //     await FirebaseStorage.instance.ref('uploads/$fileName').putFile(file);
+  //     String downloadURL = await FirebaseStorage.instance
+  //         .ref('uploads/$fileName')
+  //         .getDownloadURL();
+  //     setState(() {
+  //       imageUrl = downloadURL;
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+  late TextEditingController shopname;
+  // TextEditingController shopname = TextEditingController();
 
-  TextEditingController shopname = TextEditingController();
-  TextEditingController phoneNum = TextEditingController();
+  late TextEditingController phoneNum;
   String? imageUrl;
-  String? selectedCategory;
+  late String selectedCategory;
 
-  void updateshop(String docId) {
+  void updateshop(String docId, context) {
     final data = {
       'Name': shopname.text,
       'phone': phoneNum.text,
@@ -56,13 +67,18 @@ class _UpdateshopState extends State<Updateshop> {
     };
     print('Updating document with ID: $docId');
     print('Data: $data');
-    shop.doc(docId).update(data);
+    try {
+      shop.doc(docId).update(data);
+    } catch (e) {
+      print('errorr $e');
+    }
+
     // // ignore: avoid_print
     // .then((value) => print('object'))
     // // ignore: avoid_print
     // .catchError((e) => print("Error updating document $e"));
     showPopup(
-      context: context,
+      ctx: context,
       tiltle: 'Updated',
       subtilte: 'Shop detials has been updated successfully',
       confirmTitle2: 'Done',
@@ -73,18 +89,30 @@ class _UpdateshopState extends State<Updateshop> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    selectedCategory = widget.category;
+  }
+
+  String? docId;
+  // late var args;
+
+  @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map?;
-    String docId = args?['id'] ?? '';
-    if (args != null) {
-      shopname.text = args['Name'] ?? '';
-      phoneNum.text = args['phone'] ?? '';
-      selectedCategory = args['category'] ?? '';
-    } else {
-      shopname.text = '';
-      phoneNum.text = '';
-      selectedCategory = null;
-    }
+    phoneNum = TextEditingController(text: widget.phone);
+    shopname = TextEditingController(text: widget.name);
+    // args = ModalRoute.of(context)!.settings.arguments as Map?;
+    // docId = shop['id'] ?? '';
+    // if (args != null) {
+    //   shopname.text = args['Name'] ?? 'a';
+    //   phoneNum.text = args['phone'] ?? '';
+    //   selectedCategory = args['category'] ?? '';
+    //   print('$selectedCategory' + "sdhkf");
+    // } else {
+    //   shopname.text = '';
+    //   phoneNum.text = '';
+    //   selectedCategory = null;
+    // }
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 217, 216, 216),
       appBar: AppBar(
@@ -189,34 +217,36 @@ class _UpdateshopState extends State<Updateshop> {
                         const BorderSide(color: Colors.grey, width: 1.0),
                   ),
                 ),
-                items: category
-                    .map(
-                      (e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(e),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (val) {
-                  {
-                    selectedCategory = val;
-                  }
+                items: category.map<DropdownMenuItem<String>>(
+                  (String category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    );
+                  },
+                ).toList(),
+                onChanged: (String? val) {
+                  setState(() {
+                    selectedCategory = val ?? '';
+                    print('SELECTED $selectedCategory');
+                  });
                 },
               ),
             ),
+            // ElevatedButton(
+            //   // ignore: avoid_print
+            //   onPressed: () {
+            //     // print('args');
+            //     // pickAndUploadImage();
+            //   },
+            //   child: Text('Pick Image'),
+            // ),
             ElevatedButton(
-              // ignore: avoid_print
               onPressed: () {
-                // print('args');
-                // pickAndUploadImage();
-              },
-              child: Text('Pick Image'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                print(args);
+                // print(args);
+                print('QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ');
                 print(selectedCategory);
-                updateshop(docId);
+                updateshop(widget.id, context);
               },
               style: ElevatedButton.styleFrom(
                 maximumSize: Size(200, 200),

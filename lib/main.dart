@@ -5,7 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 
 // import 'package:makemeover/view/artistCard.dart';
 import 'package:makemeover/view/home.dart';
+import 'package:makemeover/view/profile.dart';
 import 'package:makemeover/view/updateShop.dart';
+import 'package:makemeover/view/whisList.dart';
 import 'package:provider/provider.dart';
 // import 'package:makemeover/view/updateShop.dart';
 
@@ -21,14 +23,17 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => IconProvider(),
+          create: (_) => WishlistProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => Shopsnap(),
         ),
         ChangeNotifierProvider(
           create: (context) => ShopProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => IconProvider(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -46,7 +51,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        'updateShop': (context) => Updateshop(),
+        // 'updateShop': (context) => Updateshop(),
+        'artistPage': (context) => profilepage()
       },
     );
   }

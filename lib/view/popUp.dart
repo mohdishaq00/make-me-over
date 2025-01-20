@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:makemeover/view/home.dart';
 
 void showPopup(
-    {required BuildContext context,
+    {required BuildContext ctx,
     // required final NavigatorState navigator,
     required String tiltle,
     required String subtilte,
@@ -11,7 +11,7 @@ void showPopup(
     final VoidCallback? onPressed1,
     final VoidCallback? onPressed2}) {
   showDialog(
-    context: context,
+    context: ctx,
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Colors.blueGrey,
@@ -28,7 +28,7 @@ void showPopup(
           TextButton(
             onPressed: onPressed1,
             child: Text(
-              confirmTitle1!,
+              confirmTitle1 ?? "",
               style: TextStyle(color: Colors.blueGrey[50]),
               selectionColor: Colors.blue[50],
             ),
