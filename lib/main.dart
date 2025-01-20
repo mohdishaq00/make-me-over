@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:makemeover/Providers.dart';
 import 'package:makemeover/model/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 // import 'package:makemeover/view/artistCard.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:makemeover/view/profile.dart';
