@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:makemeover/Providers.dart';
 import 'package:makemeover/view/home.dart';
 import 'package:makemeover/view/profile.dart';
 import 'package:makemeover/view/updateShop.dart';

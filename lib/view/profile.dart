@@ -16,10 +16,10 @@ import 'package:makemeover/Providers.dart';
 // ignore: camel_case_types
 class profilepage extends StatefulWidget {
   // late DocumentSnapshot? shopData = ;
-  final String shopId;
+  final String? shopId;
   const profilepage({
     super.key,
-    required this.shopId,
+    this.shopId,
   });
 
   @override
@@ -33,9 +33,9 @@ class _MyWidgetState extends State<profilepage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.shopId.isNotEmpty) {
+      if (widget.shopId!.isNotEmpty) {
         Provider.of<ShopProvider>(context, listen: false)
-            .fetchArtistName(widget.shopId);
+            .fetchArtistName(widget.shopId!);
       } else {
         debugPrint('Error: shopId is null or empty');
       }

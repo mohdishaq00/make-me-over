@@ -26,7 +26,7 @@ class _AddshopState extends State<Addshop> {
     final phone = phoneNum.text;
     if (name.isEmpty || phone.isEmpty) {
       showPopup(
-          context: context,
+          ctx: context,
           tiltle: 'Error',
           subtilte: 'Please Fill the fields',
           confirmTitle2: 'ok');
@@ -43,7 +43,7 @@ class _AddshopState extends State<Addshop> {
           tiltle: 'Shop Added',
           subtilte: 'Shop has been added successfully',
           // ignore: use_build_context_synchronously
-          context: context,
+          ctx: context,
           confirmTitle1: '',
           confirmTitle2: 'yes',
           onPressed2: () {
@@ -53,7 +53,7 @@ class _AddshopState extends State<Addshop> {
       }).catchError((error) {
         showPopup(
           // ignore: use_build_context_synchronously
-          context: context,
+          ctx: context,
           tiltle: 'Error',
           subtilte: 'Failed to add shop: $error',
           confirmTitle2: 'OK',
